@@ -33,7 +33,7 @@ func combine(list []model.UniversityInfo) []model.University {
 	return combinedUniversityList
 }
 
-func Unisearch_handler(w http.ResponseWriter, r *http.Request) {
+func UnisearchHandler(w http.ResponseWriter, r *http.Request) {
 	jsonparser.EncodeUni(w, combine(jsonparser.DecodeUniInfo(
 		client.GetResponseFromWebPage("http://universities.hipolabs.com/search?name=Molde"))))
 }

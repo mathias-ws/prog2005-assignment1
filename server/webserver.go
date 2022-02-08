@@ -16,7 +16,7 @@ func StartWebServer() {
 		port = constants.PORT
 	}
 
-	http.HandleFunc(constants.UNISEARCH_LOCATION, handlers.Unisearch_handler)
+	http.HandleFunc(constants.UNISEARCH_LOCATION, handlers.UnisearchHandler)
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
