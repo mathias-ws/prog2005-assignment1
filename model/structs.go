@@ -10,6 +10,7 @@ type UniversityInfo struct {
 
 // CountryApi defines the fields taken from the countries api.
 type CountryApi struct {
+	Name      map[string]string `json:"name"`
 	Maps      map[string]string `json:"maps"`
 	Languages map[string]string `json:"languages"`
 	BordersTo []string          `json:"borders"`
