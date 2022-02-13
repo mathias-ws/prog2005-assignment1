@@ -28,12 +28,24 @@ func getCountry(countryName string) model.CountryApi {
 }
 
 // combine takes a slice of university info and combines every element with its country info and appends it to
-//a new slice. The combined slice is returned.
+//a new slice. The combined slice is returned. The method caches the result from the countries api to minimize
+//the number of requests.
 func combine(list []model.UniversityInfo) []model.University {
 	var combinedUniversityList []model.University
+	var countriesCache = map[string]model.CountryApi{}
 	for _, obtainedUniversity := range list {
+		var country model.CountryApi
+		countryName := obtainedUniversity.Country
+
+		if value, ok := countriesCache[countryName]; ok {
+			country = value
+		} else {
+			countriesCache[countryName] = getCountry(countryName)
+			country = countriesCache[countryName]
+		}
+
 		combinedUniversityList = append(combinedUniversityList, combineStructs(
-			obtainedUniversity, getCountry(obtainedUniversity.Country)))
+			obtainedUniversity, country))
 	}
 	return combinedUniversityList
 }
