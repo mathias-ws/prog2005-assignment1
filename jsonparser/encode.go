@@ -7,5 +7,7 @@ import (
 )
 
 func EncodeUni(w io.Writer, list []model.University) {
-	json.NewEncoder(w).Encode(list)
+	encoder := json.NewEncoder(w)
+	encoder.SetIndent("", "\t")
+	encoder.Encode(list)
 }
