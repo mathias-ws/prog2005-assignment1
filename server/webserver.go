@@ -17,6 +17,7 @@ func StartWebServer() {
 	}
 
 	http.HandleFunc(constants.UNISEARCH_LOCATION, handlers.UnisearchHandler)
+	http.HandleFunc(constants.NEIGHBOUR_UNIS_LOCATION, handlers.NeighbourUnisHandler)
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
