@@ -2,11 +2,14 @@ package jsonparser
 
 import (
 	"encoding/json"
-	"io"
 	"log"
+	"net/http"
 )
 
-func Encode(w io.Writer, valueToEncode interface{}) {
+// Encode encodes some data into json and displays it on the website.
+func Encode(w http.ResponseWriter, valueToEncode interface{}) {
+	w.Header().Add("Content-Type", "application/json")
+
 	encoder := json.NewEncoder(w)
 	encoder.SetIndent("", "\t")
 
