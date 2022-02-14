@@ -4,7 +4,7 @@ import (
 	"assignment-1/client"
 	"assignment-1/constants"
 	"assignment-1/jsonparser"
-	"assignment-1/model"
+	"assignment-1/logic"
 	"net/http"
 	"net/url"
 )
@@ -26,6 +26,6 @@ func urlHandler(url *url.URL) string {
 
 // UnisearchHandler is the handler called from the web server.
 func UnisearchHandler(w http.ResponseWriter, r *http.Request) {
-	jsonparser.EncodeUni(w, model.Combine(jsonparser.DecodeUniInfo(
+	jsonparser.EncodeUni(w, logic.Combine(jsonparser.DecodeUniInfo(
 		client.GetResponseFromWebPage(urlHandler(r.URL)))))
 }
