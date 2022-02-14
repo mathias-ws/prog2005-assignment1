@@ -1,4 +1,4 @@
-package logic
+package model_logic
 
 import (
 	"assignment-1/client"
