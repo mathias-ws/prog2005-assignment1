@@ -2,11 +2,18 @@ package server
 
 import (
 	"assignment-1/constants"
+	"assignment-1/model_logic"
 	"assignment-1/server/handlers"
 	"log"
 	"net/http"
 	"os"
 )
+
+func setHandlers() {
+	http.HandleFunc(constants.UNISEARCH_LOCATION, handlers.UnisearchHandler)
+	http.HandleFunc(constants.NEIGHBOUR_UNIS_LOCATION, handlers.NeighbourUnisHandler)
+	http.HandleFunc(constants.DIAG_LOCATION, handlers.DiagHandler)
+}
 
 func StartWebServer() {
 	port := os.Getenv("PORT")
@@ -16,8 +23,8 @@ func StartWebServer() {
 		port = constants.PORT
 	}
 
-	http.HandleFunc(constants.UNISEARCH_LOCATION, handlers.UnisearchHandler)
-	http.HandleFunc(constants.NEIGHBOUR_UNIS_LOCATION, handlers.NeighbourUnisHandler)
+	setHandlers()
 
+	model_logic.SetStartTime()
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
