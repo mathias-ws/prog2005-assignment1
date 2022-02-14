@@ -25,3 +25,11 @@ type University struct {
 	Languages map[string]string `json:"languages"`
 	Map       string            `json:"map"`
 }
+
+// Diagnostics struct that contains all the information displayed in the diag endpoint.
+type Diagnostics struct {
+	UniversityApiStatus int    `json:"universitiesapi"`
+	CountryApiStatus    int    `json:"countriesapi"`
+	Version             string `json:"version"`
+	Uptime              string `json:"uptime"`
+}
