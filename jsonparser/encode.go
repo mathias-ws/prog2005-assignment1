@@ -1,17 +1,16 @@
 package jsonparser
 
 import (
-	"assignment-1/model"
 	"encoding/json"
 	"io"
 	"log"
 )
 
-func EncodeUni(w io.Writer, list []model.University) {
+func Encode(w io.Writer, valueToEncode interface{}) {
 	encoder := json.NewEncoder(w)
 	encoder.SetIndent("", "\t")
 
-	if err := encoder.Encode(list); err != nil {
+	if err := encoder.Encode(valueToEncode); err != nil {
 		log.Fatal("Unable to encode data: ", err)
 	}
 }
