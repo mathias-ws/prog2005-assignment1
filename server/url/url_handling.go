@@ -8,8 +8,8 @@ import (
 
 // GetNameAndCountry Gets the search string from the user containing uni name and country.
 func GetNameAndCountry(url *url.URL) (string, string) {
-	searchStrings := url.Query()
-	return searchStrings[constants.URL_PARAM_NAME][0], searchStrings[constants.URL_PARAM_COUNTRY][0]
+	searchParameters := url.Query()
+	return searchParameters[constants.URL_PARAM_NAME][0], searchParameters[constants.URL_PARAM_COUNTRY][0]
 }
 
 // GenerateUniversitySearchString generates a search string for the university api based on the user inputted url.
