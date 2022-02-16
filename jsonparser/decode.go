@@ -25,9 +25,8 @@ func DecodeUniInfo(httpResponse *http.Response) []model.UniversityInfo {
 func DecodeCountryInfo(httpResponse *http.Response) []model.CountryApi {
 	decoder := json.NewDecoder(httpResponse.Body)
 	var list []model.CountryApi
-
 	if err := decoder.Decode(&list); err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	return list
