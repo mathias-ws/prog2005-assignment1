@@ -16,3 +16,9 @@ const UNIVERSITY_API = "http://universities.hipolabs.com/search?"
 const UNIVERSITY_API_ROOT_URL = "http://universities.hipolabs.com"
 
 const PROGRAM_VERSION = "v1"
+
+// URL params
+const URL_PARAM_NAME = "name"
+const URL_PARAM_COUNTRY = "country"
+const URL_PARAM_AND = "&"
+const URL_PARAM_EQUALS = "="
