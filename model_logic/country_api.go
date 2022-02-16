@@ -10,11 +10,12 @@ import (
 // GetCountry Gets the country based on the country name from the country api.
 func GetCountry(countryName string) model.CountryApi {
 	return jsonparser.DecodeCountryInfo(client.GetResponseFromWebPage(
-		constants.COUNTRY_API + countryName))[0]
+		constants.COUNTRY_API + countryName + constants.COUNTRY_API_CONSTRAINTS))[0]
 }
 
 // getCountryBasedOnCode Gets the country based on the country code from the country api.
 func getCountryBasedOnCode(countryCode string) model.CountryApi {
+	//TODO: add constraint, currently not working..
 	return jsonparser.DecodeCountryInfo(client.GetResponseFromWebPage(
 		constants.COUNTRY_API_ALPHA_CODE + countryCode))[0]
 }
@@ -23,12 +24,13 @@ func getCountryBasedOnCode(countryCode string) model.CountryApi {
 // of the neighbouring countries.
 func GetNeighbouringCountries(country model.CountryApi) map[string]model.CountryApi {
 	neighbouringCountriesAlphaCodes := country.BordersTo
-	var neighbouringCountriesFullName = map[string]model.CountryApi{}
+	var countriesFullName = map[string]model.CountryApi{}
+	countriesFullName[country.Name["common"].(string)] = country
 
 	for _, borderingCountry := range neighbouringCountriesAlphaCodes {
 		obtainedCountry := getCountryBasedOnCode(borderingCountry)
-		neighbouringCountriesFullName[obtainedCountry.Name["common"].(string)] = obtainedCountry
+		countriesFullName[obtainedCountry.Name["common"].(string)] = obtainedCountry
 	}
 
-	return neighbouringCountriesFullName
+	return countriesFullName
 }
