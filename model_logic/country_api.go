@@ -5,7 +5,6 @@ import (
 	"assignment-1/constants"
 	"assignment-1/jsonparser"
 	"assignment-1/model"
-	"fmt"
 )
 
 // GetCountry Gets the country based on the country name from the country api.
@@ -20,14 +19,15 @@ func getCountryBasedOnCode(countryCode string) model.CountryApi {
 		constants.COUNTRY_API_ALPHA_CODE + countryCode))[0]
 }
 
-// GetNeighbouringCountries takes a country code and returns a slice with the common name of the country.
-func GetNeighbouringCountries(country model.CountryApi) []string {
+// GetNeighbouringCountries takes a countryApi struct and returns a map containing countryApi instances
+// of the neighbouring countries.
+func GetNeighbouringCountries(country model.CountryApi) map[string]model.CountryApi {
 	neighbouringCountriesAlphaCodes := country.BordersTo
-	var neighbouringCountriesFullName []string
+	var neighbouringCountriesFullName = map[string]model.CountryApi{}
 
 	for _, borderingCountry := range neighbouringCountriesAlphaCodes {
-		neighbouringCountriesFullName = append(neighbouringCountriesFullName, fmt.Sprintf("%v",
-			getCountryBasedOnCode(borderingCountry).Name["common"]))
+		obtainedCountry := getCountryBasedOnCode(borderingCountry)
+		neighbouringCountriesFullName[obtainedCountry.Name["common"].(string)] = obtainedCountry
 	}
 
 	return neighbouringCountriesFullName
