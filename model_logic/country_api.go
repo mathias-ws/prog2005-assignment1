@@ -8,7 +8,13 @@ import (
 	"fmt"
 )
 
-// getCountry Gets the country based on the country code from the country api.
+// GetCountry Gets the country based on the country name from the country api.
+func GetCountry(countryName string) model.CountryApi {
+	return jsonparser.DecodeCountryInfo(client.GetResponseFromWebPage(
+		constants.COUNTRY_API + countryName))[0]
+}
+
+// getCountryBasedOnCode Gets the country based on the country code from the country api.
 func getCountryBasedOnCode(countryCode string) model.CountryApi {
 	return jsonparser.DecodeCountryInfo(client.GetResponseFromWebPage(
 		constants.COUNTRY_API_ALPHA_CODE + countryCode))[0]
