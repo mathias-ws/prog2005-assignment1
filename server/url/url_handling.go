@@ -2,14 +2,19 @@ package url
 
 import (
 	"assignment-1/constants"
+	"errors"
 	"net/url"
 	"strings"
 )
 
 // GetNameAndCountry Gets the search string from the user containing uni name and country.
-func GetNameAndCountry(url *url.URL) (string, string) {
+func GetNameAndCountry(url *url.URL) (string, string, error) {
 	searchParameters := url.Query()
-	return searchParameters[constants.URL_PARAM_NAME][0], searchParameters[constants.URL_PARAM_COUNTRY][0]
+	if searchParameters.Has(constants.URL_PARAM_NAME) && searchParameters.Has(constants.URL_PARAM_COUNTRY) {
+		return searchParameters[constants.URL_PARAM_NAME][0], searchParameters[constants.URL_PARAM_COUNTRY][0], nil
+	} else {
+		return "", "", errors.New("missing parameters or wrong parameters")
+	}
 }
 
 // GenerateUniversitySearchString generates a search string for the university api based on the user inputted url.

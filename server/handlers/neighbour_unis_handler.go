@@ -20,5 +20,12 @@ func NeighbourUnisHandler(w http.ResponseWriter, r *http.Request) {
 
 // handleGetRequestNeighbourUnis handles the get requests for the endpoint.
 func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
-	jsonparser.Encode(w, model_logic.GetUniversitiesBorderingTo(url.GetNameAndCountry(r.URL)))
+	uniName, country, err := url.GetNameAndCountry(r.URL)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	jsonparser.Encode(w, model_logic.GetUniversitiesBorderingTo(uniName, country))
 }
