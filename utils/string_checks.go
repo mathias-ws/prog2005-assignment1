@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"regexp"
 	"strings"
 )
@@ -12,8 +11,6 @@ func CheckIfStringIsNotEmpty(str string) bool {
 	strToCheck := strings.ReplaceAll(str, " ", "")
 
 	if strToCheck != "" {
-		fmt.Println(strToCheck)
-		fmt.Println(str)
 		return regexp.MustCompile(`^[a-zA-Z]+$`).MatchString(strToCheck)
 	}
 	return false
