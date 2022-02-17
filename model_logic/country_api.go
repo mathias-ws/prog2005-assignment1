@@ -5,12 +5,19 @@ import (
 	"assignment-1/constants"
 	"assignment-1/jsonparser"
 	"assignment-1/model"
+	"errors"
 )
 
 // GetCountry Gets the country based on the country name from the country api.
-func GetCountry(countryName string) model.CountryApi {
-	return jsonparser.DecodeCountryInfo(client.GetResponseFromWebPage(
-		constants.COUNTRY_API + countryName + constants.COUNTRY_API_CONSTRAINTS))[0]
+func GetCountry(countryName string) (model.CountryApi, error) {
+	country := jsonparser.DecodeCountryInfo(client.GetResponseFromWebPage(
+		constants.COUNTRY_API + countryName + constants.COUNTRY_API_CONSTRAINTS))
+
+	if len(country) == 0 {
+		return model.CountryApi{}, errors.New("unable to retrieve country")
+	}
+
+	return country[0], nil
 }
 
 // getCountryBasedOnCode Gets the country based on the country code from the country api.

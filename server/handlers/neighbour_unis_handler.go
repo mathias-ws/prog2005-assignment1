@@ -27,5 +27,13 @@ func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	jsonparser.Encode(w, model_logic.GetUniversitiesBorderingTo(uniName, country))
+	valuesToEncode, err := model_logic.GetUniversitiesBorderingTo(uniName, country)
+
+	// Enters the if when the country does not exist in the country api.
+	if err != nil {
+		http.Error(w, "No results found for current request.", http.StatusNotFound)
+		return
+	}
+
+	jsonparser.Encode(w, valuesToEncode)
 }

@@ -5,6 +5,9 @@ import (
 	"assignment-1/constants"
 	"assignment-1/jsonparser"
 	"assignment-1/model"
+	"errors"
+	"fmt"
+	"log"
 	"strings"
 )
 
@@ -21,7 +24,7 @@ func combineStructs(uni model.UniversityInfo, country model.CountryApi) model.Un
 }
 
 // GetUniversitiesBorderingTo gets the
-func GetUniversitiesBorderingTo(universityName string, searchCountry string) []model.University {
+func GetUniversitiesBorderingTo(universityName string, searchCountry string) ([]model.University, error) {
 	var combinedUniversities []model.University
 	baseUrlToSearch := strings.Builder{}
 	baseUrlToSearch.WriteString(constants.UNIVERSITY_API)
@@ -32,7 +35,14 @@ func GetUniversitiesBorderingTo(universityName string, searchCountry string) []m
 	baseUrlToSearch.WriteString(constants.URL_PARAM_COUNTRY)
 	baseUrlToSearch.WriteString(constants.URL_PARAM_EQUALS)
 
-	countries := GetNeighbouringCountries(GetCountry(searchCountry))
+	country, err := GetCountry(searchCountry)
+
+	// Enters the if when the country does not exist in the country api.
+	if err != nil {
+		return []model.University{}, err
+	}
+
+	countries := GetNeighbouringCountries(country)
 
 	for _, country := range countries {
 		urlToSearch := strings.Builder{}
@@ -48,13 +58,13 @@ func GetUniversitiesBorderingTo(universityName string, searchCountry string) []m
 		}
 	}
 
-	return combinedUniversities
+	return combinedUniversities, nil
 }
 
 // Combine takes a slice of university info and combines every element with its country info and appends it to
 //a new slice. The combined slice is returned. The method caches the result from the countries api to minimize
 //the number of requests.
-func Combine(universities []model.UniversityInfo) []model.University {
+func Combine(universities []model.UniversityInfo) ([]model.University, error) {
 	var combinedUniversityList []model.University
 	var countriesCache = map[string]model.CountryApi{}
 
@@ -65,12 +75,24 @@ func Combine(universities []model.UniversityInfo) []model.University {
 		if value, ok := countriesCache[countryName]; ok {
 			country = value
 		} else {
-			countriesCache[countryName] = GetCountry(countryName)
+			if returnedCountry, err := GetCountry(countryName); err != nil {
+				log.Println(err)
+				fmt.Println("Country not found")
+				return []model.University{}, err
+			} else {
+				countriesCache[countryName] = returnedCountry
+			}
+
 			country = countriesCache[countryName]
 		}
 
 		combinedUniversityList = append(combinedUniversityList, combineStructs(
 			obtainedUniversity, country))
 	}
-	return combinedUniversityList
+
+	if len(combinedUniversityList) == 0 {
+		return []model.University{}, errors.New("no countries found")
+	}
+
+	return combinedUniversityList, nil
 }

@@ -21,6 +21,14 @@ func UnisearchHandler(w http.ResponseWriter, r *http.Request) {
 
 // handleGetRequestUniSearch handles the get requests for the endpoint.
 func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
-	jsonparser.Encode(w, model_logic.Combine(jsonparser.DecodeUniInfo(
-		client.GetResponseFromWebPage(url.GenerateUniversitySearchString(r.URL)))))
+	combinedUniversities, err := model_logic.Combine(jsonparser.DecodeUniInfo(
+		client.GetResponseFromWebPage(url.GenerateUniversitySearchString(r.URL))))
+
+	// Enters the if when no results in the university api is found.
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	jsonparser.Encode(w, combinedUniversities)
 }
