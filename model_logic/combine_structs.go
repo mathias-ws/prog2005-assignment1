@@ -5,6 +5,7 @@ import (
 	"assignment-1/constants"
 	"assignment-1/jsonparser"
 	"assignment-1/model"
+	"strings"
 )
 
 // combineStructs combines the university info with the country info and returns the data struct.
@@ -19,14 +20,27 @@ func combineStructs(uni model.UniversityInfo, country model.CountryApi) model.Un
 	}
 }
 
+// GetUniversitiesBorderingTo gets the
 func GetUniversitiesBorderingTo(universityName string, searchCountry string) []model.University {
 	var combinedUniversities []model.University
-	url := constants.UNIVERSITY_API + "name=" + universityName + "&country="
+	baseUrlToSearch := strings.Builder{}
+	baseUrlToSearch.WriteString(constants.UNIVERSITY_API)
+	baseUrlToSearch.WriteString(constants.URL_PARAM_NAME)
+	baseUrlToSearch.WriteString(constants.URL_PARAM_EQUALS)
+	baseUrlToSearch.WriteString(universityName)
+	baseUrlToSearch.WriteString(constants.URL_PARAM_AND)
+	baseUrlToSearch.WriteString(constants.URL_PARAM_COUNTRY)
+	baseUrlToSearch.WriteString(constants.URL_PARAM_EQUALS)
+
 	countries := GetNeighbouringCountries(GetCountry(searchCountry))
 
 	for _, country := range countries {
-		urlToSearch := url + country.Name["common"].(string)
-		universities := jsonparser.DecodeUniInfo(client.GetResponseFromWebPage(urlToSearch))
+		urlToSearch := strings.Builder{}
+		urlToSearch.WriteString(baseUrlToSearch.String())
+		urlToSearch.WriteString(country.Name["common"].(string))
+
+		universities := jsonparser.DecodeUniInfo(client.GetResponseFromWebPage(
+			strings.ReplaceAll(urlToSearch.String(), " ", "%20")))
 
 		for _, obtainedUniversity := range universities {
 			combinedUniversities = append(combinedUniversities, combineStructs(obtainedUniversity,
