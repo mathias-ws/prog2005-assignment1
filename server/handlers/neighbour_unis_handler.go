@@ -27,7 +27,15 @@ func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	valuesToEncode, err := model_logic.GetUniversitiesBorderingTo(uniName, country)
+	limit, err := url.GetLimit(r.URL)
+
+	// When the limit is invalid
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	valuesToEncode, err := model_logic.GetUniversitiesBorderingTo(uniName, country, limit)
 
 	// Enters the if when the country does not exist in the country api.
 	if err != nil {

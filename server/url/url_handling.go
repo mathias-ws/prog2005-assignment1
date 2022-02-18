@@ -5,6 +5,7 @@ import (
 	"assignment-1/utils"
 	"errors"
 	"net/url"
+	"strconv"
 	"strings"
 )
 
@@ -59,4 +60,21 @@ func GenerateUniversitySearchString(url *url.URL) string {
 	}
 
 	return urlToSearch.String()
+}
+
+// GetLimit returns the limit specified by the user.
+func GetLimit(url *url.URL) (int, error) {
+	obtainedQuery := url.Query()
+
+	if obtainedQuery.Has(constants.URL_PARAM_LIMIT) {
+		limit, err := strconv.Atoi(obtainedQuery[constants.URL_PARAM_LIMIT][0])
+
+		if !(limit > 0) || err != nil {
+			return 0, errors.New("invalid limit")
+		}
+
+		return limit, nil
+	}
+
+	return 0, nil
 }

@@ -23,7 +23,7 @@ func combineStructs(uni model.UniversityInfo, country model.CountryApi) model.Un
 }
 
 // GetUniversitiesBorderingTo gets the
-func GetUniversitiesBorderingTo(universityName string, searchCountry string) ([]model.University, error) {
+func GetUniversitiesBorderingTo(universityName string, searchCountry string, limit int) ([]model.University, error) {
 	var combinedUniversities []model.University
 	baseUrlToSearch := strings.Builder{}
 	baseUrlToSearch.WriteString(constants.UNIVERSITY_API)
@@ -54,6 +54,13 @@ func GetUniversitiesBorderingTo(universityName string, searchCountry string) ([]
 		for _, obtainedUniversity := range universities {
 			combinedUniversities = append(combinedUniversities, combineStructs(obtainedUniversity,
 				countries[obtainedUniversity.Country]))
+
+			if len(combinedUniversities) > limit-1 && limit != 0 {
+				break
+			}
+		}
+		if len(combinedUniversities) > limit-1 && limit != 0 {
+			break
 		}
 	}
 
