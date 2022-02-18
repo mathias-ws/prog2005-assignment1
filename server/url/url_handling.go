@@ -29,12 +29,20 @@ func GenerateUniversitySearchString(url *url.URL) string {
 	urlToSearch.WriteString(constants.UNIVERSITY_API)
 
 	if searchStrings.Has(constants.URL_PARAM_NAME) {
+		if !utils.CheckIfStringIsNotEmpty(searchStrings[constants.URL_PARAM_NAME][0]) {
+			return ""
+		}
+
 		urlToSearch.WriteString(constants.URL_PARAM_NAME)
 		urlToSearch.WriteString(constants.URL_PARAM_EQUALS)
 		urlToSearch.WriteString(strings.ReplaceAll(searchStrings[constants.URL_PARAM_NAME][0], " ", "%20"))
 	}
 
 	if searchStrings.Has(constants.URL_PARAM_COUNTRY) {
+		if !utils.CheckIfStringIsNotEmpty(searchStrings[constants.URL_PARAM_COUNTRY][0]) {
+			return ""
+		}
+
 		// Adds an and if the name parameter is used as well.
 		if strings.Contains(urlToSearch.String(), constants.URL_PARAM_NAME) {
 			urlToSearch.WriteString(constants.URL_PARAM_AND)
@@ -43,6 +51,11 @@ func GenerateUniversitySearchString(url *url.URL) string {
 		urlToSearch.WriteString(constants.URL_PARAM_COUNTRY)
 		urlToSearch.WriteString(constants.URL_PARAM_EQUALS)
 		urlToSearch.WriteString(strings.ReplaceAll(searchStrings[constants.URL_PARAM_COUNTRY][0], " ", "%20"))
+	}
+
+	if !strings.Contains(urlToSearch.String(), constants.URL_PARAM_NAME) &&
+		!strings.Contains(urlToSearch.String(), constants.URL_PARAM_COUNTRY) {
+		return ""
 	}
 
 	return urlToSearch.String()
