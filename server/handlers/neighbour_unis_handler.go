@@ -23,7 +23,7 @@ func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
 	uniName, country, err := url.GetNameAndCountry(r.URL)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
