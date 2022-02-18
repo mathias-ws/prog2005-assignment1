@@ -6,7 +6,6 @@ import (
 	"assignment-1/jsonparser"
 	"assignment-1/model"
 	"errors"
-	"fmt"
 	"log"
 	"strings"
 )
@@ -77,7 +76,6 @@ func Combine(universities []model.UniversityInfo) ([]model.University, error) {
 		} else {
 			if returnedCountry, err := GetCountry(countryName); err != nil {
 				log.Println(err)
-				fmt.Println("Country not found")
 				return []model.University{}, err
 			} else {
 				countriesCache[countryName] = returnedCountry

@@ -13,7 +13,7 @@ func GetCountry(countryName string) (model.CountryApi, error) {
 	country := jsonparser.DecodeCountryInfo(client.GetResponseFromWebPage(
 		constants.COUNTRY_API + countryName + constants.COUNTRY_API_CONSTRAINTS))
 
-	if len(country) == 0 {
+	if len(country) == 0 || country == nil {
 		return model.CountryApi{}, errors.New("unable to retrieve country")
 	}
 
@@ -22,9 +22,8 @@ func GetCountry(countryName string) (model.CountryApi, error) {
 
 // getCountryBasedOnCode Gets the country based on the country code from the country api.
 func getCountryBasedOnCode(countryCode string) model.CountryApi {
-	//TODO: add constraint, currently not working..
 	return jsonparser.DecodeCountryInfo(client.GetResponseFromWebPage(
-		constants.COUNTRY_API_ALPHA_CODE + countryCode))[0]
+		constants.COUNTRY_API_ALPHA_CODE + countryCode + constants.COUNTRY_API_CONSTRAINTS))[0]
 }
 
 // GetNeighbouringCountries takes a countryApi struct and returns a map containing countryApi instances
