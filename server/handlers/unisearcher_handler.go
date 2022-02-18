@@ -26,7 +26,7 @@ func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
 
 	// Enters the if when no results in the university api is found.
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
+		http.Error(w, err.Error(), http.StatusNoContent)
 		return
 	}
 

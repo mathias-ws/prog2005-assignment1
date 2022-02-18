@@ -31,7 +31,7 @@ func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
 
 	// Enters the if when the country does not exist in the country api.
 	if err != nil {
-		http.Error(w, "No results found for current request.", http.StatusNotFound)
+		http.Error(w, "No results found for current request.", http.StatusNoContent)
 		return
 	}
 
