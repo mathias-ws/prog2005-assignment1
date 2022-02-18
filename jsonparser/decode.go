@@ -28,6 +28,11 @@ func DecodeCountryInfo(httpResponse *http.Response) []model.CountryApi {
 	var list []model.CountryApi
 	var countryObject model.CountryApi
 
+	// If nothing is found in the country api nothing is returned.
+	if httpResponse.StatusCode == http.StatusBadRequest || httpResponse.StatusCode == http.StatusNotFound {
+		return nil
+	}
+
 	// Turns the response body into a byte array
 	p, err := io.ReadAll(httpResponse.Body)
 	if err != nil {
