@@ -9,7 +9,7 @@ The api has three endpoint:
     /unisearcher/v1/diag
 
 ## Uniinfo
-The uniinfo endpoints can be used either based on university name or country name or both.
+The uniinfo endpoint can be used either based on university name or country name or both.
 
 ### Response
 A response will have the content type set to `application/json`.
@@ -45,6 +45,60 @@ Example body:
         },
         "map": "https://www.openstreetmap.org/relation/2978650"
     }
+    ]
+
+##Neighbourunis
+This endpoint searches for universities with a similar name in the given country and in its
+neighbouring countries. A list of json objects are returned. 
+
+### Request
+The neighbourunis endpoint can be used to search based on university name and country name.
+An optional parameter `limit` can be used to limit the number of objects are returned.
+
+####Parameters:
+
+`name` is the English name of the university, it can be partial or complete.
+
+`country` is the country that the api uses as the basis for finding neighbouring countries. 
+The complete english name must be provided.
+
+`limit` is the number of results that are returned. This is an optional parameter and can be omitted.
+If not set by the user all results are returned.
+
+Example search:
+
+    unisearcher/v1/neighbourunis/?name=science&country=norway&limit=1
+    unisearcher/v1/neighbourunis/?name=Norwegian%20University%20of%20Science%20and%20Technology&country=norway
+
+
+### Response
+A response will have the content type set to `application/json`.
+
+Status codes:
+* 200: Everything is ok.
+* 400: Client side error, wrong limit/other.
+* 404: No university found based on the request.
+* 405: When using other methods than get.
+
+A response with the http code 200 will always be a list of universities even when only one is found.
+
+Example body:
+
+    [
+	{
+		"name": "Norwegian University of Science and Technology",
+		"country": "Norway",
+		"isocode": "NO",
+		"webpages": [
+			"http://www.ntnu.no/"
+		],
+		"languages": {
+			"nno": "Norwegian Nynorsk",
+			"nob": "Norwegian Bokmål",
+			"smi": "Sami"
+		},
+		"map": "https://www.openstreetmap.org/relation/2978650"
+	}
     ]
 
 # Todo
