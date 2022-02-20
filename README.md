@@ -56,7 +56,7 @@ Example body:
     }
     ]
 
-##Neighbourunis
+## Neighbourunis
 This endpoint searches for universities with a similar name in the given country and in its
 neighbouring countries. A list of json objects are returned. 
 
