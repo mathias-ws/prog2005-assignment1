@@ -9,7 +9,22 @@ The api has three endpoint:
     /unisearcher/v1/diag
 
 ## Uniinfo
+The uniinfo endpoint can be used to find information about a university with some country information.
+You can search for all universities within a given country, just for the name or for both.
+
+### Request
 The uniinfo endpoint can be used either based on university name or country name or both.
+
+####Parameters:
+`name` is the English name of the university, it can be partial or complete.
+
+`country` is the country the university is in. The complete english name must be provided.
+
+Example search:
+
+    unisearcher/v1/uniinfo/?name=Molde&country=norway
+    unisearcher/v1/uniinfo/?name=Norwegian%20University%20of%20Science%20and%20Technology
+    unisearcher/v1/uniinfo/?country=norway
 
 ### Response
 A response will have the content type set to `application/json`.
@@ -21,12 +36,6 @@ Status codes:
 * 405: When using other methods than get.
 
 A response with the http code 200 will always be a list of universities even when only one is found.
-
-Example search:
-
-    unisearcher/v1/uniinfo/?name=Molde&country=norway
-    unisearcher/v1/uniinfo/?name=Norwegian%20University%20of%20Science%20and%20Technology
-    unisearcher/v1/uniinfo/?country=norway
 
 Example body:
 
