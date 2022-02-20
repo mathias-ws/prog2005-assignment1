@@ -10,7 +10,7 @@ FROM alpine:3.5
 
 WORKDIR /usr/local/bin
 
-COPY --from=builder /uniinfoapp .
+COPY --from=builder /uniinfo/uniinfoapp .
 
 EXPOSE 80
 
