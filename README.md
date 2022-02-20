@@ -143,6 +143,5 @@ Example body:
 * Error handling?
 * Code clean up
 * Comments?
-* Heroku
 * Limit uniinfo endpoint
 * Error handling when the backend apis are not up
