@@ -15,7 +15,7 @@ You can search for all universities within a given country, just for the name or
 ### Request
 The uniinfo endpoint can be used either based on university name or country name or both.
 
-####Parameters:
+#### Parameters:
 `name` is the English name of the university, it can be partial or complete.
 
 `country` is the country the university is in. The complete english name must be provided.
@@ -64,7 +64,7 @@ neighbouring countries. A list of json objects are returned.
 The neighbourunis endpoint can be used to search based on university name and country name.
 An optional parameter `limit` can be used to limit the number of objects are returned.
 
-####Parameters:
+#### Parameters:
 
 `name` is the English name of the university, it can be partial or complete.
 
@@ -114,14 +114,14 @@ Example body:
 Returns some information about the service. The information may include: information about the backend
 apis, uptime and api version.
 
-###Request
+### Request
 The request takes no parameters.
 
 Example search:
 
     unisearcher/v1/diag
 
-###Response
+### Response
 
 Status codes:
 * 200: Everything is ok.
