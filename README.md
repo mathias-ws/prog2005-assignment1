@@ -110,6 +110,32 @@ Example body:
 	}
     ]
 
+## Diag
+Returns some information about the service. The information may include: information about the backend
+apis, uptime and api version.
+
+###Request
+The request takes no parameters.
+
+Example search:
+
+    unisearcher/v1/diag
+
+###Response
+
+Status codes:
+* 200: Everything is ok.
+* 405: When using other methods than get.
+
+Example body:
+
+    {
+	"universitiesapi": 200,
+	"countriesapi": 200,
+	"version": "v1",
+	"uptime": "1983s"
+    }
+
 # Todo
 * uniinfo: contains: https://github.com/Hipo/university-domains-list-api/blob/master/app.py#L28
 * Documentation
