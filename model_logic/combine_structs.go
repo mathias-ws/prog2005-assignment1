@@ -3,9 +3,9 @@ package model_logic
 import (
 	"assignment-1/client"
 	"assignment-1/constants"
+	"assignment-1/customErrors"
 	"assignment-1/jsonparser"
 	"assignment-1/model"
-	"errors"
 	"log"
 	"strings"
 )
@@ -106,7 +106,7 @@ func Combine(universities []model.UniversityInfo) ([]model.University, error) {
 	}
 
 	if len(combinedUniversityList) == 0 {
-		return []model.University{}, errors.New("no countries found")
+		return []model.University{}, customErrors.GetNoContentFoundError()
 	}
 
 	return combinedUniversityList, nil

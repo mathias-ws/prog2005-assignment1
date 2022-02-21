@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"assignment-1/client"
+	"assignment-1/customErrors"
 	"assignment-1/jsonparser"
 	"assignment-1/model_logic"
 	"assignment-1/server/url"
@@ -30,8 +31,8 @@ func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
 
 	response, err := client.GetResponseFromWebPage(urlToSearch)
 
-	if err != nil {
-		http.Error(w, "Error from backend api", http.StatusInternalServerError)
+	if err == customErrors.GetUnableToReachBackendApisError() {
+		http.Error(w, "Error from backend api", http.StatusBadGateway)
 		return
 	}
 

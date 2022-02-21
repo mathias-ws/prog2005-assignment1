@@ -2,6 +2,7 @@ package client
 
 import (
 	"assignment-1/constants"
+	"assignment-1/customErrors"
 	"log"
 	"net/http"
 )
@@ -12,7 +13,7 @@ func GetResponseFromWebPage(url string) (*http.Response, error) {
 
 	if errorFromRequest != nil {
 		log.Println("Error when creating the request:", errorFromRequest.Error())
-		return nil, errorFromRequest
+		return nil, customErrors.GetUnableToReachBackendApisError()
 	}
 
 	// Setting the content type header
@@ -29,7 +30,7 @@ func GetResponseFromWebPage(url string) (*http.Response, error) {
 
 	if errorFromResponse != nil {
 		log.Println("Error in the response:", errorFromResponse.Error())
-		return nil, errorFromResponse
+		return nil, customErrors.GetUnableToReachBackendApisError()
 	}
 
 	return response, nil

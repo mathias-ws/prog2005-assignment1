@@ -3,9 +3,9 @@ package model_logic
 import (
 	"assignment-1/client"
 	"assignment-1/constants"
+	"assignment-1/customErrors"
 	"assignment-1/jsonparser"
 	"assignment-1/model"
-	"errors"
 )
 
 // GetCountry Gets the country based on the country name from the country api.
@@ -20,7 +20,7 @@ func GetCountry(countryName string) (model.CountryApi, error) {
 	country := jsonparser.DecodeCountryInfo(response)
 
 	if len(country) == 0 || country == nil {
-		return model.CountryApi{}, errors.New("unable to retrieve country")
+		return model.CountryApi{}, customErrors.GetUnableToGetCountryError()
 	}
 
 	return country[0], nil

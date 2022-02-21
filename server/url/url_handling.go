@@ -2,8 +2,8 @@ package url
 
 import (
 	"assignment-1/constants"
+	"assignment-1/customErrors"
 	"assignment-1/utils"
-	"errors"
 	"net/url"
 	"strconv"
 	"strings"
@@ -19,7 +19,7 @@ func GetNameAndCountry(url *url.URL) (string, string, error) {
 		utils.CheckIfStringIsNotEmpty(searchParameters[constants.URL_PARAM_COUNTRY][0]) {
 		return searchParameters[constants.URL_PARAM_NAME][0], searchParameters[constants.URL_PARAM_COUNTRY][0], nil
 	} else {
-		return "", "", errors.New("missing parameters or wrong parameters")
+		return "", "", customErrors.GetParameterError()
 	}
 }
 
@@ -70,7 +70,7 @@ func GetLimit(url *url.URL) (int, error) {
 		limit, err := strconv.Atoi(obtainedQuery[constants.URL_PARAM_LIMIT][0])
 
 		if !(limit > 0) || err != nil {
-			return 0, errors.New("invalid limit")
+			return 0, customErrors.GetInvalidLimitError()
 		}
 
 		return limit, nil
