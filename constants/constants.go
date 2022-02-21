@@ -1,5 +1,7 @@
 package constants
 
+import "time"
+
 const PORT = "80"
 
 // URL paths
@@ -23,3 +25,6 @@ const URL_PARAM_COUNTRY = "country"
 const URL_PARAM_AND = "&"
 const URL_PARAM_EQUALS = "="
 const URL_PARAM_LIMIT = "limit"
+
+// Web client timeout time
+const CLIENT_TIMEOUT = 30 * time.Second
