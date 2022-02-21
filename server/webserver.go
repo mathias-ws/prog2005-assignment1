@@ -26,5 +26,8 @@ func StartWebServer() {
 	setHandlers()
 
 	model_logic.SetStartTime()
+
+	log.Println("Webserver started on port:", port)
+
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
