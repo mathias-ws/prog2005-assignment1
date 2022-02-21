@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"assignment-1/customErrors"
 	"assignment-1/jsonparser"
 	"assignment-1/model_logic"
 	"assignment-1/server/url"
@@ -37,8 +38,11 @@ func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
 
 	valuesToEncode, err := model_logic.GetUniversitiesBorderingTo(uniName, country, limit)
 
-	// Enters the if when the country does not exist in the country api.
-	if err != nil {
+	if err.Error() == customErrors.GetUnableToReachBackendApisError().Error() {
+		http.Error(w, "Error from backend api", http.StatusBadGateway)
+		return
+	} else if err != nil {
+		// Enters the if when the country does not exist in the country api.
 		http.Error(w, "No results found for current request.", http.StatusNotFound)
 		return
 	}

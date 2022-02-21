@@ -31,15 +31,15 @@ func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
 
 	response, err := client.GetResponseFromWebPage(urlToSearch)
 
-	if err == customErrors.GetUnableToReachBackendApisError() {
+	if err.Error() == customErrors.GetUnableToReachBackendApisError().Error() {
 		http.Error(w, "Error from backend api", http.StatusBadGateway)
 		return
 	}
 
 	combinedUniversities, err := model_logic.Combine(jsonparser.DecodeUniInfo(response))
 
-	// Enters the if when no results in the university api is found.
 	if err != nil {
+		// Enters the if when no results in the university api is found.
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
