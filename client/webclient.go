@@ -1,7 +1,7 @@
 package client
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -12,7 +12,7 @@ func GetResponseFromWebPage(url string) *http.Response {
 	request, errorFromRequest := http.NewRequest(http.MethodGet, url, nil)
 
 	if errorFromRequest != nil {
-		fmt.Errorf("Error when creating the request:", errorFromRequest.Error())
+		log.Println("Error when creating the request:", errorFromRequest.Error())
 	}
 
 	// Setting the content type header
@@ -25,7 +25,7 @@ func GetResponseFromWebPage(url string) *http.Response {
 	response, errorFromResponse := webClient.Do(request)
 
 	if errorFromResponse != nil {
-		fmt.Errorf("Error in the response:", errorFromResponse.Error())
+		log.Println("Error in the response:", errorFromResponse.Error())
 	}
 
 	return response
