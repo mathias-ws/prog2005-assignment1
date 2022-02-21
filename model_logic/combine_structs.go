@@ -27,7 +27,7 @@ func GetUniversitiesBorderingTo(universityName string, searchCountry string, lim
 	var combinedUniversities []model.University
 	baseUrlToSearch := strings.Builder{}
 	baseUrlToSearch.WriteString(constants.UNIVERSITY_API)
-	baseUrlToSearch.WriteString(constants.URL_PARAM_NAME)
+	baseUrlToSearch.WriteString(constants.URL_PARAM_NAME_CONTAINS)
 	baseUrlToSearch.WriteString(constants.URL_PARAM_EQUALS)
 	baseUrlToSearch.WriteString(universityName)
 	baseUrlToSearch.WriteString(constants.URL_PARAM_AND)

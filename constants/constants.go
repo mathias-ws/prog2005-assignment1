@@ -21,6 +21,7 @@ const PROGRAM_VERSION = "v1"
 
 // URL params
 const URL_PARAM_NAME = "name"
+const URL_PARAM_NAME_CONTAINS = "name_contains"
 const URL_PARAM_COUNTRY = "country"
 const URL_PARAM_AND = "&"
 const URL_PARAM_EQUALS = "="

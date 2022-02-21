@@ -34,7 +34,7 @@ func GenerateUniversitySearchString(url *url.URL) string {
 			return ""
 		}
 
-		urlToSearch.WriteString(constants.URL_PARAM_NAME)
+		urlToSearch.WriteString(constants.URL_PARAM_NAME_CONTAINS)
 		urlToSearch.WriteString(constants.URL_PARAM_EQUALS)
 		urlToSearch.WriteString(strings.ReplaceAll(searchStrings[constants.URL_PARAM_NAME][0], " ", "%20"))
 	}
