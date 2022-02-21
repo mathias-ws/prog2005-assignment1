@@ -137,11 +137,8 @@ Example body:
     }
 
 # Todo
-* uniinfo: contains: https://github.com/Hipo/university-domains-list-api/blob/master/app.py#L28
 * Documentation
 * Correct endpoints search method?
-* Error handling?
 * Code clean up
 * Comments?
 * Limit uniinfo endpoint
-* Error handling when the backend apis are not up
