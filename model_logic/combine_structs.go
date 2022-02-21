@@ -73,6 +73,9 @@ func GetUniversitiesBorderingTo(universityName string, searchCountry string, lim
 			break
 		}
 	}
+	if len(combinedUniversities) == 0 {
+		return nil, customErrors.GetNoContentFoundError()
+	}
 
 	return combinedUniversities, nil
 }
