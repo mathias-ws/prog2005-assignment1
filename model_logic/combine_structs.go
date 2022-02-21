@@ -41,15 +41,25 @@ func GetUniversitiesBorderingTo(universityName string, searchCountry string, lim
 		return []model.University{}, err
 	}
 
-	countries := GetNeighbouringCountries(country)
+	countries, err := GetNeighbouringCountries(country)
+
+	if err != nil {
+		return nil, err
+	}
 
 	for _, country := range countries {
 		urlToSearch := strings.Builder{}
 		urlToSearch.WriteString(baseUrlToSearch.String())
 		urlToSearch.WriteString(country.Name["common"].(string))
 
-		universities := jsonparser.DecodeUniInfo(client.GetResponseFromWebPage(
-			strings.ReplaceAll(urlToSearch.String(), " ", "%20")))
+		response, err := client.GetResponseFromWebPage(
+			strings.ReplaceAll(urlToSearch.String(), " ", "%20"))
+
+		if err != nil {
+			return nil, err
+		}
+
+		universities := jsonparser.DecodeUniInfo(response)
 
 		for _, obtainedUniversity := range universities {
 			combinedUniversities = append(combinedUniversities, combineStructs(obtainedUniversity,

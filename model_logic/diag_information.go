@@ -5,6 +5,7 @@ import (
 	"assignment-1/constants"
 	"assignment-1/model"
 	"fmt"
+	"net/http"
 	"time"
 )
 
@@ -22,15 +23,31 @@ func getUptime() string {
 }
 
 // getStatusCode gets the status code from a webpage specified by an url.
-func getStatusCode(url string) int {
-	return client.GetResponseFromWebPage(url).StatusCode
+func getStatusCode(url string) (int, error) {
+	statusCode, err := client.GetResponseFromWebPage(url)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return statusCode.StatusCode, err
 }
 
 // GetDiagInfo gets the diagnosis information and turns it into a struct.
 func GetDiagInfo() model.Diagnostics {
+	countryApiStatusCode, errCountry := getStatusCode(constants.COUNTRY_API_ROOT_URL)
+	universityApiStatusCode, errUni := getStatusCode(constants.UNIVERSITY_API_ROOT_URL)
+
+	if errCountry != nil {
+		countryApiStatusCode = http.StatusGatewayTimeout
+	}
+	if errUni != nil {
+		universityApiStatusCode = http.StatusGatewayTimeout
+	}
+
 	return model.Diagnostics{
-		CountryApiStatus:    getStatusCode(constants.COUNTRY_API_ROOT_URL),
-		UniversityApiStatus: getStatusCode(constants.UNIVERSITY_API_ROOT_URL),
+		CountryApiStatus:    countryApiStatusCode,
+		UniversityApiStatus: universityApiStatusCode,
 		Uptime:              getUptime(),
 		Version:             constants.PROGRAM_VERSION,
 	}

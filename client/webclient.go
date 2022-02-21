@@ -6,14 +6,13 @@ import (
 	"net/http"
 )
 
-//TODO: Send http error når ingenting matcher søket
-
 // GetResponseFromWebPage method that takes an url and gets a json response from the webpage.
-func GetResponseFromWebPage(url string) *http.Response {
+func GetResponseFromWebPage(url string) (*http.Response, error) {
 	request, errorFromRequest := http.NewRequest(http.MethodGet, url, nil)
 
 	if errorFromRequest != nil {
 		log.Println("Error when creating the request:", errorFromRequest.Error())
+		return nil, errorFromRequest
 	}
 
 	// Setting the content type header
@@ -30,7 +29,8 @@ func GetResponseFromWebPage(url string) *http.Response {
 
 	if errorFromResponse != nil {
 		log.Println("Error in the response:", errorFromResponse.Error())
+		return nil, errorFromResponse
 	}
 
-	return response
+	return response, nil
 }

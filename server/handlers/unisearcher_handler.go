@@ -28,8 +28,14 @@ func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	combinedUniversities, err := model_logic.Combine(jsonparser.DecodeUniInfo(
-		client.GetResponseFromWebPage(urlToSearch)))
+	response, err := client.GetResponseFromWebPage(urlToSearch)
+
+	if err != nil {
+		http.Error(w, "Error from backend api", http.StatusInternalServerError)
+		return
+	}
+
+	combinedUniversities, err := model_logic.Combine(jsonparser.DecodeUniInfo(response))
 
 	// Enters the if when no results in the university api is found.
 	if err != nil {

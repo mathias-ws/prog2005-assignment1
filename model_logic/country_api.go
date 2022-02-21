@@ -10,8 +10,14 @@ import (
 
 // GetCountry Gets the country based on the country name from the country api.
 func GetCountry(countryName string) (model.CountryApi, error) {
-	country := jsonparser.DecodeCountryInfo(client.GetResponseFromWebPage(
-		constants.COUNTRY_API + countryName + constants.COUNTRY_API_CONSTRAINTS))
+	response, err := client.GetResponseFromWebPage(
+		constants.COUNTRY_API + countryName + constants.COUNTRY_API_CONSTRAINTS)
+
+	if err != nil {
+		return model.CountryApi{}, err
+	}
+
+	country := jsonparser.DecodeCountryInfo(response)
 
 	if len(country) == 0 || country == nil {
 		return model.CountryApi{}, errors.New("unable to retrieve country")
@@ -21,22 +27,33 @@ func GetCountry(countryName string) (model.CountryApi, error) {
 }
 
 // getCountryBasedOnCode Gets the country based on the country code from the country api.
-func getCountryBasedOnCode(countryCode string) model.CountryApi {
-	return jsonparser.DecodeCountryInfo(client.GetResponseFromWebPage(
-		constants.COUNTRY_API_ALPHA_CODE + countryCode + constants.COUNTRY_API_CONSTRAINTS))[0]
+func getCountryBasedOnCode(countryCode string) (model.CountryApi, error) {
+	response, err := client.GetResponseFromWebPage(
+		constants.COUNTRY_API_ALPHA_CODE + countryCode + constants.COUNTRY_API_CONSTRAINTS)
+
+	if err != nil {
+		return model.CountryApi{}, err
+	}
+
+	return jsonparser.DecodeCountryInfo(response)[0], nil
 }
 
 // GetNeighbouringCountries takes a countryApi struct and returns a map containing countryApi instances
 // of the neighbouring countries.
-func GetNeighbouringCountries(country model.CountryApi) map[string]model.CountryApi {
+func GetNeighbouringCountries(country model.CountryApi) (map[string]model.CountryApi, error) {
 	neighbouringCountriesAlphaCodes := country.BordersTo
 	var countriesFullName = map[string]model.CountryApi{}
 	countriesFullName[country.Name["common"].(string)] = country
 
 	for _, borderingCountry := range neighbouringCountriesAlphaCodes {
-		obtainedCountry := getCountryBasedOnCode(borderingCountry)
+		obtainedCountry, err := getCountryBasedOnCode(borderingCountry)
+
+		if err != nil {
+			return nil, err
+		}
+
 		countriesFullName[obtainedCountry.Name["common"].(string)] = obtainedCountry
 	}
 
-	return countriesFullName
+	return countriesFullName, nil
 }
