@@ -26,6 +26,7 @@ func getUptime() string {
 func getStatusCode(url string) (int, error) {
 	statusCode, err := web_client.GetResponseFromWebPage(url)
 
+	// Checks for errors when fetching the api.
 	if err != nil {
 		return 0, err
 	}
@@ -35,9 +36,11 @@ func getStatusCode(url string) (int, error) {
 
 // GetDiagInfo gets the diagnosis information and turns it into a struct.
 func GetDiagInfo() model.Diagnostics {
+	// Gets the status codes.
 	countryApiStatusCode, errCountry := getStatusCode(constants.COUNTRY_API_ROOT_URL)
 	universityApiStatusCode, errUni := getStatusCode(constants.UNIVERSITY_API_ROOT_URL)
 
+	// If the apis are unreachable set a proper error code.
 	if errCountry != nil {
 		countryApiStatusCode = http.StatusBadGateway
 	}
