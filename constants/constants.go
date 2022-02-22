@@ -27,5 +27,5 @@ const URL_PARAM_AND = "&"
 const URL_PARAM_EQUALS = "="
 const URL_PARAM_LIMIT = "limit"
 
-// Web client timeout time
+// Web web_client timeout time
 const CLIENT_TIMEOUT = 30 * time.Second

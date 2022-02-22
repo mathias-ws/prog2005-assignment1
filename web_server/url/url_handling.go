@@ -2,8 +2,8 @@ package url
 
 import (
 	"assignment-1/constants"
-	"assignment-1/customErrors"
-	"assignment-1/utils"
+	"assignment-1/custom_errors"
+	"assignment-1/utilities"
 	"net/url"
 	"strconv"
 	"strings"
@@ -15,11 +15,11 @@ func GetNameAndCountry(url *url.URL) (string, string, error) {
 
 	// Checking that the search terms are valid strings and exists.
 	if searchParameters.Has(constants.URL_PARAM_NAME) && searchParameters.Has(constants.URL_PARAM_COUNTRY) &&
-		utils.CheckIfStringIsNotEmpty(searchParameters[constants.URL_PARAM_NAME][0]) &&
-		utils.CheckIfStringIsNotEmpty(searchParameters[constants.URL_PARAM_COUNTRY][0]) {
+		utilities.CheckIfStringIsNotEmpty(searchParameters[constants.URL_PARAM_NAME][0]) &&
+		utilities.CheckIfStringIsNotEmpty(searchParameters[constants.URL_PARAM_COUNTRY][0]) {
 		return searchParameters[constants.URL_PARAM_NAME][0], searchParameters[constants.URL_PARAM_COUNTRY][0], nil
 	} else {
-		return "", "", customErrors.GetParameterError()
+		return "", "", custom_errors.GetParameterError()
 	}
 }
 
@@ -30,7 +30,7 @@ func GenerateUniversitySearchString(url *url.URL) string {
 	urlToSearch.WriteString(constants.UNIVERSITY_API)
 
 	if searchStrings.Has(constants.URL_PARAM_NAME) {
-		if !utils.CheckIfStringIsNotEmpty(searchStrings[constants.URL_PARAM_NAME][0]) {
+		if !utilities.CheckIfStringIsNotEmpty(searchStrings[constants.URL_PARAM_NAME][0]) {
 			return ""
 		}
 
@@ -40,7 +40,7 @@ func GenerateUniversitySearchString(url *url.URL) string {
 	}
 
 	if searchStrings.Has(constants.URL_PARAM_COUNTRY) {
-		if !utils.CheckIfStringIsNotEmpty(searchStrings[constants.URL_PARAM_COUNTRY][0]) {
+		if !utilities.CheckIfStringIsNotEmpty(searchStrings[constants.URL_PARAM_COUNTRY][0]) {
 			return ""
 		}
 
@@ -70,7 +70,7 @@ func GetLimit(url *url.URL) (int, error) {
 		limit, err := strconv.Atoi(obtainedQuery[constants.URL_PARAM_LIMIT][0])
 
 		if !(limit > 0) || err != nil {
-			return 0, customErrors.GetInvalidLimitError()
+			return 0, custom_errors.GetInvalidLimitError()
 		}
 
 		return limit, nil

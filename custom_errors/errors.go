@@ -1,11 +1,11 @@
-package customErrors
+package custom_errors
 
 import "errors"
 
 // Structure inspired by this stackoverflow thread:
 //https://stackoverflow.com/questions/38361919/how-do-i-cleanly-separate-user-facing-errors-from-internal-errors-in-golang
 
-// GetUnableToReachBackendApisError returns the error message for the client side error from the apis.
+// GetUnableToReachBackendApisError returns the error message for the web_client side error from the apis.
 func GetUnableToReachBackendApisError() error {
 	return errors.New("error sending request or getting response from the api")
 }

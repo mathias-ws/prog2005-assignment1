@@ -1,15 +1,15 @@
 package model_logic
 
 import (
-	"assignment-1/client"
 	"assignment-1/constants"
 	"assignment-1/model"
+	"assignment-1/web_client"
 	"fmt"
 	"net/http"
 	"time"
 )
 
-// Variable containing the start time of the server.
+// Variable containing the start time of the web_server.
 var startTime time.Time
 
 // SetStartTime sets the startTime variable to the current time.
@@ -24,7 +24,7 @@ func getUptime() string {
 
 // getStatusCode gets the status code from a webpage specified by an url.
 func getStatusCode(url string) (int, error) {
-	statusCode, err := client.GetResponseFromWebPage(url)
+	statusCode, err := web_client.GetResponseFromWebPage(url)
 
 	if err != nil {
 		return 0, err

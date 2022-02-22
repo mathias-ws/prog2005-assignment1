@@ -1,4 +1,4 @@
-package customErrors
+package custom_errors
 
 import (
 	"net/http"
@@ -20,7 +20,7 @@ func HttpUnsupportedMethod(w http.ResponseWriter) {
 	http.Error(w, "Method not supported.", http.StatusMethodNotAllowed)
 }
 
-// HttpUnknownServerError http error message for when the server has an undefined error or an error the user should not know.
+// HttpUnknownServerError http error message for when the web_server has an undefined error or an error the user should not know.
 func HttpUnknownServerError(w http.ResponseWriter) {
 	http.Error(w, "Server side error, please try again later", http.StatusInternalServerError)
 }

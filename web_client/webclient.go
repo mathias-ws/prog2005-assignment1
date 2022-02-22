@@ -1,8 +1,8 @@
-package client
+package web_client
 
 import (
 	"assignment-1/constants"
-	"assignment-1/customErrors"
+	"assignment-1/custom_errors"
 	"log"
 	"net/http"
 )
@@ -13,7 +13,7 @@ func GetResponseFromWebPage(url string) (*http.Response, error) {
 
 	if errorFromRequest != nil {
 		log.Println("Error when creating the request:", errorFromRequest.Error())
-		return nil, customErrors.GetUnableToReachBackendApisError()
+		return nil, custom_errors.GetUnableToReachBackendApisError()
 	}
 
 	// Setting the content type header
@@ -22,7 +22,7 @@ func GetResponseFromWebPage(url string) (*http.Response, error) {
 	// Instantiate the webClient
 	webClient := &http.Client{}
 
-	// Setting timeout for web client
+	// Setting timeout for web web_client
 	webClient.Timeout = constants.CLIENT_TIMEOUT
 
 	// Sending the request
@@ -30,7 +30,7 @@ func GetResponseFromWebPage(url string) (*http.Response, error) {
 
 	if errorFromResponse != nil {
 		log.Println("Error in the response:", errorFromResponse.Error())
-		return nil, customErrors.GetUnableToReachBackendApisError()
+		return nil, custom_errors.GetUnableToReachBackendApisError()
 	}
 
 	return response, nil

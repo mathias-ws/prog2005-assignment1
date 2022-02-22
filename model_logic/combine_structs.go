@@ -1,11 +1,11 @@
 package model_logic
 
 import (
-	"assignment-1/client"
 	"assignment-1/constants"
-	"assignment-1/customErrors"
-	"assignment-1/jsonparser"
+	"assignment-1/custom_errors"
+	"assignment-1/json_parser"
 	"assignment-1/model"
+	"assignment-1/web_client"
 	"log"
 	"strings"
 )
@@ -52,14 +52,14 @@ func GetUniversitiesBorderingTo(universityName string, searchCountry string, lim
 		urlToSearch.WriteString(baseUrlToSearch.String())
 		urlToSearch.WriteString(country.Name["common"].(string))
 
-		response, err := client.GetResponseFromWebPage(
+		response, err := web_client.GetResponseFromWebPage(
 			strings.ReplaceAll(urlToSearch.String(), " ", "%20"))
 
 		if err != nil {
 			return nil, err
 		}
 
-		universities := jsonparser.DecodeUniInfo(response)
+		universities := json_parser.DecodeUniInfo(response)
 
 		for _, obtainedUniversity := range universities {
 			combinedUniversities = append(combinedUniversities, combineStructs(obtainedUniversity,
@@ -74,7 +74,7 @@ func GetUniversitiesBorderingTo(universityName string, searchCountry string, lim
 		}
 	}
 	if len(combinedUniversities) == 0 {
-		return nil, customErrors.GetNoContentFoundError()
+		return nil, custom_errors.GetNoContentFoundError()
 	}
 
 	return combinedUniversities, nil
@@ -109,7 +109,7 @@ func Combine(universities []model.UniversityInfo) ([]model.University, error) {
 	}
 
 	if len(combinedUniversityList) == 0 {
-		return []model.University{}, customErrors.GetNoContentFoundError()
+		return []model.University{}, custom_errors.GetNoContentFoundError()
 	}
 
 	return combinedUniversityList, nil

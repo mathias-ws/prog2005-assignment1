@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"assignment-1/jsonparser"
+	"assignment-1/json_parser"
 	"assignment-1/model_logic"
 	"net/http"
 )
@@ -20,7 +20,7 @@ func DiagHandler(w http.ResponseWriter, r *http.Request) {
 
 // handleGetRequestDiag handles the get requests for the endpoint.
 func handleGetRequestDiag(w http.ResponseWriter) {
-	err := jsonparser.Encode(w, model_logic.GetDiagInfo())
+	err := json_parser.Encode(w, model_logic.GetDiagInfo())
 
 	if err != nil {
 		http.Error(w, "Server side error, please try again later", http.StatusInternalServerError)

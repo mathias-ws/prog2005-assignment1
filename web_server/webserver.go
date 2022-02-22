@@ -1,9 +1,9 @@
-package server
+package web_server
 
 import (
 	"assignment-1/constants"
 	"assignment-1/model_logic"
-	"assignment-1/server/handlers"
+	"assignment-1/web_server/handlers"
 	"log"
 	"net/http"
 	"os"

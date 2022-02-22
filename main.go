@@ -1,7 +1,7 @@
 package main
 
-import "assignment-1/server"
+import "assignment-1/web_server"
 
 func main() {
-	server.StartWebServer()
+	web_server.StartWebServer()
 }

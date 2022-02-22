@@ -1,11 +1,11 @@
 package handlers
 
 import (
-	"assignment-1/client"
-	"assignment-1/customErrors"
-	"assignment-1/jsonparser"
+	"assignment-1/custom_errors"
+	"assignment-1/json_parser"
 	"assignment-1/model_logic"
-	"assignment-1/server/url"
+	"assignment-1/web_client"
+	"assignment-1/web_server/url"
 	"net/http"
 )
 
@@ -16,7 +16,7 @@ func UnisearchHandler(w http.ResponseWriter, r *http.Request) {
 		handleGetRequestUniSearch(w, r)
 	default:
 		// Returns method not supported for unsupported rest methods.
-		customErrors.HttpUnsupportedMethod(w)
+		custom_errors.HttpUnsupportedMethod(w)
 		return
 	}
 }
@@ -26,31 +26,31 @@ func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
 	urlToSearch := url.GenerateUniversitySearchString(r.URL)
 
 	if urlToSearch == "" {
-		customErrors.HttpSearchParameters(w)
+		custom_errors.HttpSearchParameters(w)
 		return
 	}
 
-	response, err := client.GetResponseFromWebPage(urlToSearch)
+	response, err := web_client.GetResponseFromWebPage(urlToSearch)
 
 	if err != nil {
-		if err.Error() == customErrors.GetUnableToReachBackendApisError().Error() {
-			customErrors.HttpErrorFromBackendApi(w)
+		if err.Error() == custom_errors.GetUnableToReachBackendApisError().Error() {
+			custom_errors.HttpErrorFromBackendApi(w)
 			return
 		}
 	}
 
-	combinedUniversities, err := model_logic.Combine(jsonparser.DecodeUniInfo(response))
+	combinedUniversities, err := model_logic.Combine(json_parser.DecodeUniInfo(response))
 
 	if err != nil {
 		// Enters the if when no results in the university api is found.
-		customErrors.HttpNoContent(w)
+		custom_errors.HttpNoContent(w)
 		return
 	}
 
-	err = jsonparser.Encode(w, combinedUniversities)
+	err = json_parser.Encode(w, combinedUniversities)
 
 	if err != nil {
-		customErrors.HttpUnknownServerError(w)
+		custom_errors.HttpUnknownServerError(w)
 		return
 	}
 }

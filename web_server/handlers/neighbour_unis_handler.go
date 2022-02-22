@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"assignment-1/customErrors"
-	"assignment-1/jsonparser"
+	"assignment-1/custom_errors"
+	"assignment-1/json_parser"
 	"assignment-1/model_logic"
-	"assignment-1/server/url"
+	"assignment-1/web_server/url"
 	"net/http"
 )
 
@@ -15,7 +15,7 @@ func NeighbourUnisHandler(w http.ResponseWriter, r *http.Request) {
 		handleGetRequestNeighbourUnis(w, r)
 	default:
 		// Returns method not supported for unsupported rest methods.
-		customErrors.HttpUnsupportedMethod(w)
+		custom_errors.HttpUnsupportedMethod(w)
 		return
 	}
 }
@@ -26,7 +26,7 @@ func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
 
 	// When invalid parameters.
 	if err != nil {
-		customErrors.HttpSearchParameters(w)
+		custom_errors.HttpSearchParameters(w)
 		return
 	}
 
@@ -34,28 +34,28 @@ func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
 
 	// When the limit is invalid
 	if err != nil {
-		customErrors.HttpSearchParameters(w)
+		custom_errors.HttpSearchParameters(w)
 		return
 	}
 
 	valuesToEncode, err := model_logic.GetUniversitiesBorderingTo(uniName, country, limit)
 
 	if err != nil {
-		if err.Error() == customErrors.GetUnableToReachBackendApisError().Error() {
+		if err.Error() == custom_errors.GetUnableToReachBackendApisError().Error() {
 			// When the error is related to the backend apis.
-			customErrors.HttpErrorFromBackendApi(w)
+			custom_errors.HttpErrorFromBackendApi(w)
 			return
 		} else {
 			// Enters when the country does not exist in the country api.
-			customErrors.HttpNoContent(w)
+			custom_errors.HttpNoContent(w)
 			return
 		}
 	}
 
-	err = jsonparser.Encode(w, valuesToEncode)
+	err = json_parser.Encode(w, valuesToEncode)
 
 	if err != nil {
-		customErrors.HttpUnknownServerError(w)
+		custom_errors.HttpUnknownServerError(w)
 		return
 	}
 }
