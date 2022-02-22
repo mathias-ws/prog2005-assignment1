@@ -15,7 +15,7 @@ func combineStructs(uni model.UniversityInfo, country model.CountryApi) model.Un
 	return model.University{
 		Name:      uni.Name,
 		Country:   uni.Country,
-		Isocode:   uni.Isocode,
+		IsoCode:   uni.IsoCode,
 		Webpages:  uni.Webpages,
 		Languages: country.Languages,
 		Map:       country.Maps["openStreetMaps"],
