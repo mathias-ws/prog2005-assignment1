@@ -54,6 +54,7 @@ func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
 
 	err = json_parser.Encode(w, valuesToEncode)
 
+	// Checks for errors when encoding the data.
 	if err != nil {
 		custom_errors.HttpUnknownServerError(w)
 		return
