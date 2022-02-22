@@ -31,9 +31,11 @@ func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
 
 	response, err := client.GetResponseFromWebPage(urlToSearch)
 
-	if err.Error() == customErrors.GetUnableToReachBackendApisError().Error() {
-		http.Error(w, "Error from backend api", http.StatusBadGateway)
-		return
+	if err != nil {
+		if err.Error() == customErrors.GetUnableToReachBackendApisError().Error() {
+			http.Error(w, "Error from backend api", http.StatusBadGateway)
+			return
+		}
 	}
 
 	combinedUniversities, err := model_logic.Combine(jsonparser.DecodeUniInfo(response))
@@ -44,5 +46,10 @@ func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	jsonparser.Encode(w, combinedUniversities)
+	err = jsonparser.Encode(w, combinedUniversities)
+
+	if err != nil {
+		http.Error(w, "Server side error, please try again later", http.StatusInternalServerError)
+		return
+	}
 }

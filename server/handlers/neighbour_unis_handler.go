@@ -38,14 +38,21 @@ func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
 
 	valuesToEncode, err := model_logic.GetUniversitiesBorderingTo(uniName, country, limit)
 
-	if err.Error() == customErrors.GetUnableToReachBackendApisError().Error() {
-		http.Error(w, "Error from backend api", http.StatusBadGateway)
-		return
-	} else if err != nil {
-		// Enters the if when the country does not exist in the country api.
-		http.Error(w, "No results found for current request.", http.StatusNotFound)
-		return
+	if err != nil {
+		if err.Error() == customErrors.GetUnableToReachBackendApisError().Error() {
+			http.Error(w, "Error from backend api", http.StatusBadGateway)
+			return
+		} else {
+			// Enters the if when the country does not exist in the country api.
+			http.Error(w, "No results found for current request.", http.StatusNotFound)
+			return
+		}
 	}
 
-	jsonparser.Encode(w, valuesToEncode)
+	err = jsonparser.Encode(w, valuesToEncode)
+
+	if err != nil {
+		http.Error(w, "Server side error, please try again later", http.StatusInternalServerError)
+		return
+	}
 }
