@@ -39,10 +39,10 @@ func GetDiagInfo() model.Diagnostics {
 	universityApiStatusCode, errUni := getStatusCode(constants.UNIVERSITY_API_ROOT_URL)
 
 	if errCountry != nil {
-		countryApiStatusCode = http.StatusGatewayTimeout
+		countryApiStatusCode = http.StatusBadGateway
 	}
 	if errUni != nil {
-		universityApiStatusCode = http.StatusGatewayTimeout
+		universityApiStatusCode = http.StatusBadGateway
 	}
 
 	return model.Diagnostics{
