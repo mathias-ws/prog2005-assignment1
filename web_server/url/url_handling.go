@@ -29,31 +29,38 @@ func GenerateUniversitySearchString(url *url.URL) string {
 	urlToSearch := strings.Builder{}
 	urlToSearch.WriteString(constants.UNIVERSITY_API)
 
+	// Checks if the name parameter exists.
 	if searchStrings.Has(constants.URL_PARAM_NAME) {
+		// Checks if it has a valid value.
 		if !utilities.CheckIfStringIsNotEmpty(searchStrings[constants.URL_PARAM_NAME][0]) {
 			return ""
 		}
 
+		// Writes it to the url.
 		urlToSearch.WriteString(constants.URL_PARAM_NAME_CONTAINS)
 		urlToSearch.WriteString(constants.URL_PARAM_EQUALS)
 		urlToSearch.WriteString(strings.ReplaceAll(searchStrings[constants.URL_PARAM_NAME][0], " ", "%20"))
 	}
 
+	// Checks if the country parameter exists.
 	if searchStrings.Has(constants.URL_PARAM_COUNTRY) {
+		// Checks if it has a valid value.
 		if !utilities.CheckIfStringIsNotEmpty(searchStrings[constants.URL_PARAM_COUNTRY][0]) {
 			return ""
 		}
 
-		// Adds an and if the name parameter is used as well.
+		// Adds an '&' if the name parameter is used as well.
 		if strings.Contains(urlToSearch.String(), constants.URL_PARAM_NAME) {
 			urlToSearch.WriteString(constants.URL_PARAM_AND)
 		}
 
+		// Writes it to the url.
 		urlToSearch.WriteString(constants.URL_PARAM_COUNTRY)
 		urlToSearch.WriteString(constants.URL_PARAM_EQUALS)
 		urlToSearch.WriteString(strings.ReplaceAll(searchStrings[constants.URL_PARAM_COUNTRY][0], " ", "%20"))
 	}
 
+	// Checks if no parameters exists.
 	if !strings.Contains(urlToSearch.String(), constants.URL_PARAM_NAME) &&
 		!strings.Contains(urlToSearch.String(), constants.URL_PARAM_COUNTRY) {
 		return ""
@@ -66,9 +73,11 @@ func GenerateUniversitySearchString(url *url.URL) string {
 func GetLimit(url *url.URL) (int, error) {
 	obtainedQuery := url.Query()
 
+	// Checks if the limit parameter exists.
 	if obtainedQuery.Has(constants.URL_PARAM_LIMIT) {
 		limit, err := strconv.Atoi(obtainedQuery[constants.URL_PARAM_LIMIT][0])
 
+		// Checks that the value is valid (bigger than zero).
 		if !(limit > 0) || err != nil {
 			return 0, custom_errors.GetInvalidLimitError()
 		}
