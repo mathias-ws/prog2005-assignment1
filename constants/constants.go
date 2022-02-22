@@ -2,7 +2,9 @@ package constants
 
 import "time"
 
+// Program info
 const PORT = "80"
+const PROGRAM_VERSION = "v1"
 
 // URL paths
 const UNISEARCH_LOCATION = "/unisearcher/v1/uniinfo/"
@@ -16,8 +18,6 @@ const COUNTRY_API_ROOT_URL = "https://restcountries.com/"
 const COUNTRY_API_ALPHA_CODE = "https://restcountries.com/v3.1/alpha/"
 const UNIVERSITY_API = "http://universities.hipolabs.com/search?"
 const UNIVERSITY_API_ROOT_URL = "http://universities.hipolabs.com"
-
-const PROGRAM_VERSION = "v1"
 
 // URL params
 const URL_PARAM_NAME = "name"
