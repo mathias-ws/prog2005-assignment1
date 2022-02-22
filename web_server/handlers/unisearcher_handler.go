@@ -25,6 +25,7 @@ func UnisearchHandler(w http.ResponseWriter, r *http.Request) {
 func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
 	urlToSearch := url.GenerateUniversitySearchString(r.URL)
 
+	// Checks for an empty search string
 	if urlToSearch == "" {
 		custom_errors.HttpSearchParameters(w)
 		return
@@ -32,11 +33,11 @@ func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
 
 	response, err := web_client.GetResponseFromWebPage(urlToSearch)
 
-	if err != nil {
-		if err.Error() == custom_errors.GetUnableToReachBackendApisError().Error() {
-			custom_errors.HttpErrorFromBackendApi(w)
-			return
-		}
+	// Checks if there has been an error when fetching the api.
+	if err != nil && err.Error() == custom_errors.GetUnableToReachBackendApisError().Error() {
+		custom_errors.HttpErrorFromBackendApi(w)
+		return
+
 	}
 
 	combinedUniversities, err := model_logic.Combine(json_parser.DecodeUniInfo(response))
@@ -49,6 +50,7 @@ func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
 
 	err = json_parser.Encode(w, combinedUniversities)
 
+	// Checks for errors in the encoding process.
 	if err != nil {
 		custom_errors.HttpUnknownServerError(w)
 		return
