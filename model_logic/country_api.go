@@ -6,6 +6,7 @@ import (
 	"assignment-1/json_parser"
 	"assignment-1/model"
 	"assignment-1/web_client"
+	"strings"
 )
 
 // GetCountry Gets the country based on the country name from the country api.
@@ -21,6 +22,12 @@ func GetCountry(countryName string) (model.CountryApi, error) {
 
 	if len(country) == 0 || country == nil {
 		return model.CountryApi{}, custom_errors.GetUnableToGetCountryError()
+	} else if len(country) > 1 {
+		for i := range country {
+			if strings.ToLower(country[i].Name["common"].(string)) == strings.ToLower(countryName) {
+				return country[i], nil
+			}
+		}
 	}
 
 	return country[0], nil
