@@ -31,8 +31,8 @@ A response will have the content type set to `application/json`.
 
 Status codes:
 * 200: Everything is ok.
+* 204: No university found based on the request.
 * 400: Client side error, wrong limit/other.
-* 404: No university found based on the request.
 * 405: When using other methods than get.
 
 A response with the http code 200 will always be a list of universities even when only one is found.
@@ -85,8 +85,8 @@ A response will have the content type set to `application/json`.
 
 Status codes:
 * 200: Everything is ok.
+* 204: No university found based on the request.
 * 400: Client side error, wrong limit/other.
-* 404: No university found based on the request.
 * 405: When using other methods than get.
 
 A response with the http code 200 will always be a list of universities even when only one is found.

@@ -43,8 +43,8 @@ func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Error from backend api", http.StatusBadGateway)
 			return
 		} else {
-			// Enters the if when the country does not exist in the country api.
-			http.Error(w, "No results found for current request.", http.StatusNotFound)
+			// Enters when the country does not exist in the country api.
+			http.Error(w, "No results found for current request.", http.StatusNoContent)
 			return
 		}
 	}
