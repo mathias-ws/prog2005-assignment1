@@ -14,15 +14,18 @@ func GetCountry(countryName string) (model.CountryApi, error) {
 	response, err := web_client.GetResponseFromWebPage(
 		constants.COUNTRY_API + countryName + constants.COUNTRY_API_CONSTRAINTS)
 
+	// Checks for errors in the fetching from the api.
 	if err != nil {
 		return model.CountryApi{}, err
 	}
 
 	country := json_parser.DecodeCountryInfo(response)
 
+	// Returns an error if no structs are returned.
 	if len(country) == 0 || country == nil {
 		return model.CountryApi{}, custom_errors.GetUnableToGetCountryError()
 	} else if len(country) > 1 {
+		// Checking to find the correct country when the api returns multiple countries.
 		for i := range country {
 			if strings.ToLower(country[i].Name["common"].(string)) == strings.ToLower(countryName) {
 				return country[i], nil
@@ -33,11 +36,12 @@ func GetCountry(countryName string) (model.CountryApi, error) {
 	return country[0], nil
 }
 
-// getCountryBasedOnCode Gets the country based on the country code from the country api.
-func getCountryBasedOnCode(countryCode string) (model.CountryApi, error) {
+// getCountryBasedOnAlphaCode Gets the country based on the country code from the country api.
+func getCountryBasedOnAlphaCode(countryCode string) (model.CountryApi, error) {
 	response, err := web_client.GetResponseFromWebPage(
 		constants.COUNTRY_API_ALPHA_CODE + countryCode + constants.COUNTRY_API_CONSTRAINTS)
 
+	// Checks for errors in the fetching from the api.
 	if err != nil {
 		return model.CountryApi{}, err
 	}
@@ -50,11 +54,15 @@ func getCountryBasedOnCode(countryCode string) (model.CountryApi, error) {
 func GetNeighbouringCountries(country model.CountryApi) (map[string]model.CountryApi, error) {
 	neighbouringCountriesAlphaCodes := country.BordersTo
 	var countriesFullName = map[string]model.CountryApi{}
+
+	// Adds the current country into the map.
 	countriesFullName[country.Name["common"].(string)] = country
 
+	// Goes through all the bordering country codes and gets the country api struct, and adds it to the map.
 	for _, borderingCountry := range neighbouringCountriesAlphaCodes {
-		obtainedCountry, err := getCountryBasedOnCode(borderingCountry)
+		obtainedCountry, err := getCountryBasedOnAlphaCode(borderingCountry)
 
+		// Checks for errors in the fetching from the api.
 		if err != nil {
 			return nil, err
 		}
