@@ -15,7 +15,8 @@ func NeighbourUnisHandler(w http.ResponseWriter, r *http.Request) {
 		handleGetRequestNeighbourUnis(w, r)
 	default:
 		// Returns method not supported for unsupported rest methods.
-		http.Error(w, "Method not supported.", http.StatusMethodNotAllowed)
+		customErrors.HttpUnsupportedMethod(w)
+		return
 	}
 }
 
@@ -23,8 +24,9 @@ func NeighbourUnisHandler(w http.ResponseWriter, r *http.Request) {
 func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
 	uniName, country, err := url.GetNameAndCountry(r.URL)
 
+	// When invalid parameters.
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		customErrors.HttpSearchParameters(w)
 		return
 	}
 
@@ -32,7 +34,7 @@ func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
 
 	// When the limit is invalid
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		customErrors.HttpSearchParameters(w)
 		return
 	}
 
@@ -40,11 +42,12 @@ func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		if err.Error() == customErrors.GetUnableToReachBackendApisError().Error() {
-			http.Error(w, "Error from backend api", http.StatusBadGateway)
+			// When the error is related to the backend apis.
+			customErrors.HttpErrorFromBackendApi(w)
 			return
 		} else {
 			// Enters when the country does not exist in the country api.
-			http.Error(w, "No results found for current request.", http.StatusNoContent)
+			customErrors.HttpNoContent(w)
 			return
 		}
 	}
@@ -52,7 +55,7 @@ func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
 	err = jsonparser.Encode(w, valuesToEncode)
 
 	if err != nil {
-		http.Error(w, "Server side error, please try again later", http.StatusInternalServerError)
+		customErrors.HttpUnknownServerError(w)
 		return
 	}
 }

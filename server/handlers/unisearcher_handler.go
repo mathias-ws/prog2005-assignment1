@@ -16,7 +16,8 @@ func UnisearchHandler(w http.ResponseWriter, r *http.Request) {
 		handleGetRequestUniSearch(w, r)
 	default:
 		// Returns method not supported for unsupported rest methods.
-		http.Error(w, "Method not supported.", http.StatusMethodNotAllowed)
+		customErrors.HttpUnsupportedMethod(w)
+		return
 	}
 }
 
@@ -25,7 +26,7 @@ func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
 	urlToSearch := url.GenerateUniversitySearchString(r.URL)
 
 	if urlToSearch == "" {
-		http.Error(w, "Search must contain a search parameter with a valid value.", http.StatusBadRequest)
+		customErrors.HttpSearchParameters(w)
 		return
 	}
 
@@ -33,7 +34,7 @@ func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		if err.Error() == customErrors.GetUnableToReachBackendApisError().Error() {
-			http.Error(w, "Error from backend api", http.StatusBadGateway)
+			customErrors.HttpErrorFromBackendApi(w)
 			return
 		}
 	}
@@ -42,14 +43,14 @@ func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		// Enters the if when no results in the university api is found.
-		http.Error(w, err.Error(), http.StatusNoContent)
+		customErrors.HttpNoContent(w)
 		return
 	}
 
 	err = jsonparser.Encode(w, combinedUniversities)
 
 	if err != nil {
-		http.Error(w, "Server side error, please try again later", http.StatusInternalServerError)
+		customErrors.HttpUnknownServerError(w)
 		return
 	}
 }
