@@ -1,8 +1,12 @@
 # Assignment 1
-Project for the first assignment in PROG2005- Cloud Technologies 2022. This web based api is used
+Project for the first assignment in PROG2005- Cloud Technologies 2022. This rest api is used
 to fetch some information about a university together with some information about the country 
 it is located in. This can be done based on the name, country or on the university
 name in the neighbouring countries.
+
+The api is using http://universities.hipolabs.com/ for retrieving the university information
+and https://restcountries.com/ for retrieving the country information. Without access
+to these apis this api will not work.
 
 # Endpoints
 The api has three endpoint:
@@ -38,6 +42,8 @@ Status codes:
 * 204: No university found based on the request.
 * 400: Client side error, wrong limit/other.
 * 405: When using other methods than get.
+* 500: Undefined server side error.
+* 502: Unable to reach the backend apis.
 
 A response with the http code 200 will always be a list of universities even when only one is found.
 
@@ -92,6 +98,8 @@ Status codes:
 * 204: No university found based on the request.
 * 400: Client side error, wrong limit/other.
 * 405: When using other methods than get.
+* 500: Undefined server side error.
+* 502: Unable to reach the backend apis.
 
 A response with the http code 200 will always be a list of universities even when only one is found.
 
@@ -130,6 +138,8 @@ Example search:
 Status codes:
 * 200: Everything is ok.
 * 405: When using other methods than get.
+* 500: Undefined server side error.
+* 502: Unable to reach the backend apis.
 
 Example body:
 
@@ -141,8 +151,11 @@ Example body:
     }
 
 # Known bugs
-Because of a bug in the university info api using the country `Vietnam` can be a bit flacky because the api
+* Because of a bug in the university info api using the country `Vietnam` can be a bit flacky because the api
 registers as `Viet Nam`.
+* When the country name in the university api is different from the common name in the
+country api there might occur some edge cases where no results will be shown. 
+
 
 # How to deploy
 There are three ways to deploy this app. You can: manually build the project using `go build`, 
@@ -177,7 +190,8 @@ docker registry that is available for you.
 
 When the docker image is built it can be run with the exposed port 80.
 
-
 # Extra
 
-# Desgin choices
+# Design choices
+I chose to use parameters when searching instead of adding the search string(s) into the path.
+This to make it clearer for the user to see what information is to be added where.
