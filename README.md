@@ -140,22 +140,44 @@ Example body:
 	"uptime": "1983s"
     }
 
-# Todo
-* Documentation
-* Correct endpoints search method?
-* Code clean up
-* Comments?
-* Limit uniinfo endpoint
-
 # Known bugs
 Because of a bug in the university info api using the country `Vietnam` can be a bit flacky because the api
 registers as `Viet Nam`.
 
 # How to deploy
+There are three ways to deploy this app. You can: manually build the project using `go build`, 
+deploy it on heroku and use the Dockerfile to build it as an docker image.
+
+## Go build
+These steps require you to have go installed on the computer.
+
+1: Clone the repo.
+
+2: Enter the folder and run the command `go build main.go`.
+
+3: Use `./main` to run the project.
+
+## Heroku
+First create an account and a project in Heroku according to their documentation.
+
+1: Clone the repo
+
+2: Enter the folder in the terminal and run `heroku login`
+
+3: Then run `git remote rename heroku`
+
+4: You can then push it to the heroku master using `git push heroku`. It will then be deployed onto heroku.
+
+## Container (experimental)
+The project has a Dockerfile that can be used to deploy the application. 
+It can be built using `docker build` or using the gitlab pipeline. The only tested method is
+using the gitlab pipeline. To use the pipeline you have to create you own gitlab repo with
+available runners. The docker registry in the ci/cd yaml file must be changed to match a
+docker registry that is available for you.
+
+When the docker image is built it can be run with the exposed port 80.
+
 
 # Extra
 
 # Desgin choices
-
-# TODO
-* Refactor to use alpha code when getting country.
