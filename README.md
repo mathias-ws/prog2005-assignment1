@@ -1,5 +1,8 @@
 # Assignment 1
-Project for the first assignment in PROG2005- Cloud Technologies 2022.
+Project for the first assignment in PROG2005- Cloud Technologies 2022. This web based api is used
+to fetch some information about a university together with some information about the country 
+it is located in. This can be done based on the name, country or on the university
+name in the neighbouring countries.
 
 # Endpoints
 The api has three endpoint:
@@ -10,7 +13,8 @@ The api has three endpoint:
 
 ## Uniinfo
 The uniinfo endpoint can be used to find information about a university with some country information.
-You can search for all universities within a given country, just for the name or for both.
+You can search for all universities within a given country, just for the name or for both
+the name and the country.
 
 ### Request
 The uniinfo endpoint can be used either based on university name or country name or both.
@@ -142,3 +146,16 @@ Example body:
 * Code clean up
 * Comments?
 * Limit uniinfo endpoint
+
+# Known bugs
+Because of a bug in the university info api using the country `Vietnam` can be a bit flacky because the api
+registers as `Viet Nam`.
+
+# How to deploy
+
+# Extra
+
+# Desgin choices
+
+# TODO
+* Refactor to use alpha code when getting country.
