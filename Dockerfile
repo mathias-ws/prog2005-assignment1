@@ -1,17 +1,17 @@
-FROM golang:1.17-alpine AS builder
+# syntax=docker/dockerfile:1
 
-WORKDIR /uniinfo
+FROM golang:1.17-alpine
 
-COPY . .
-RUN go-wrapper download
-RUN go build -v
+WORKDIR /app
 
-FROM alpine:3.5
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
 
-WORKDIR /usr/local/bin
+COPY *.go ./
 
-COPY --from=builder /uniinfo/uniinfoapp .
+RUN go build -o /unisearcher
 
 EXPOSE 80
 
-CMD ["./uniinfoapp"]
+CMD [ "/unisearcher" ]
