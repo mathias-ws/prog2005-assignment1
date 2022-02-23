@@ -37,15 +37,19 @@ func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
 	if err != nil && err.Error() == custom_errors.GetUnableToReachBackendApisError().Error() {
 		custom_errors.HttpErrorFromBackendApi(w)
 		return
-
 	}
 
 	combinedUniversities, err := model_logic.Combine(json_parser.DecodeUniInfo(response))
 
 	if err != nil {
-		// Enters the if when no results in the university api is found.
-		custom_errors.HttpNoContent(w)
-		return
+		if err.Error() == custom_errors.GetUnableToReachBackendApisError().Error() {
+			custom_errors.HttpErrorFromBackendApi(w)
+			return
+		} else {
+			// Enters the if when no results in the university api is found.
+			custom_errors.HttpNoContent(w)
+			return
+		}
 	}
 
 	err = json_parser.Encode(w, combinedUniversities)
