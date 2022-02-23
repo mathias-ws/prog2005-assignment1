@@ -90,21 +90,21 @@ func Combine(universities []model.UniversityInfo) ([]model.University, error) {
 	// Goes through all the universities and combines them with the country info.
 	for _, obtainedUniversity := range universities {
 		var country model.CountryApi
-		countryName := obtainedUniversity.Country
+		countryCc2Code := obtainedUniversity.IsoCode
 
 		// If already present in cache.
-		if value, ok := countriesCache[countryName]; ok {
+		if value, ok := countriesCache[countryCc2Code]; ok {
 			country = value
 		} else {
 			// Gets a new country struct and adds it to the cache.
-			if returnedCountry, err := GetCountry(countryName); err != nil {
+			if returnedCountry, err := GetCountryByAlphaTwoCode(countryCc2Code); err != nil {
 				log.Println(err)
 				return []model.University{}, err
 			} else {
-				countriesCache[countryName] = returnedCountry
+				countriesCache[countryCc2Code] = returnedCountry
 			}
 
-			country = countriesCache[countryName]
+			country = countriesCache[countryCc2Code]
 		}
 
 		// Combines the structs and adds them to the list.
