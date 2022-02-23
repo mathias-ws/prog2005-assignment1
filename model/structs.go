@@ -14,6 +14,7 @@ type CountryApi struct {
 	Maps      map[string]string      `json:"maps"`
 	Languages map[string]string      `json:"languages"`
 	BordersTo []string               `json:"borders"`
+	Cca2      string                 `json:"cca2"`
 }
 
 // University Struct that defines the fields of the response given by the api.

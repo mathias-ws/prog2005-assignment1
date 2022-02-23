@@ -1,11 +1,11 @@
 package model_logic
 
 import (
-	"assignment-1/constants"
 	"assignment-1/custom_errors"
 	"assignment-1/json_parser"
 	"assignment-1/model"
 	"assignment-1/web_client"
+	"assignment-1/web_server/url"
 	"log"
 	"strings"
 )
@@ -20,20 +20,6 @@ func combineStructs(uni model.UniversityInfo, country model.CountryApi) model.Un
 		Languages: country.Languages,
 		Map:       country.Maps["openStreetMaps"],
 	}
-}
-
-// generateBaseUrlForCountrySearch generates the bas url that the GetUniversitiesBorderingTo function uses.
-func generateBaseUrlForCountrySearch(universityName string) string {
-	baseUrlToSearch := strings.Builder{}
-	baseUrlToSearch.WriteString(constants.UNIVERSITY_API)
-	baseUrlToSearch.WriteString(constants.URL_PARAM_NAME_CONTAINS)
-	baseUrlToSearch.WriteString(constants.URL_PARAM_EQUALS)
-	baseUrlToSearch.WriteString(universityName)
-	baseUrlToSearch.WriteString(constants.URL_PARAM_AND)
-	baseUrlToSearch.WriteString(constants.URL_PARAM_COUNTRY)
-	baseUrlToSearch.WriteString(constants.URL_PARAM_EQUALS)
-
-	return baseUrlToSearch.String()
 }
 
 // GetUniversitiesBorderingTo gets the universities based on name and country, including the neighbouring countries.
@@ -56,28 +42,24 @@ func GetUniversitiesBorderingTo(universityName string, searchCountry string, lim
 		return nil, err
 	}
 
-	// Goes through all the countries and searches for universities matching the conditions within the given country.
-	for i, country := range countries {
-		urlToSearch := strings.Builder{}
-		urlToSearch.WriteString(generateBaseUrlForCountrySearch(universityName))
-		urlToSearch.WriteString(country.Name["common"].(string))
+	response, err := web_client.GetResponseFromWebPage(
+		strings.ReplaceAll(url.GenerateBaseUrlForCountrySearch(universityName), " ", "%20"))
 
-		response, err := web_client.GetResponseFromWebPage(
-			strings.ReplaceAll(urlToSearch.String(), " ", "%20"))
+	// Enters when there has been an issue getting the slice of countries.
+	if err != nil {
+		return nil, err
+	}
 
-		if err != nil {
-			return nil, err
-		}
+	universities := json_parser.DecodeUniInfo(response)
 
-		universities := json_parser.DecodeUniInfo(response)
+	// Goes through the all the universities in a given country, combines it with the country info and adds it to the list.
+	for _, obtainedUniversity := range universities {
 
-		// Goes through the all the universities in a given country, combines it with the country info and adds it to the list.
-		for _, obtainedUniversity := range universities {
-			combinedUniversities = append(combinedUniversities, combineStructs(obtainedUniversity,
-				countries[i]))
-
-			// Ends the loop if the limit is reached.
-			if len(combinedUniversities) > limit-1 && limit != 0 {
+		// Checks if the university is in the given country and adds it to the list.
+		for _, obtainedCountry := range countries {
+			if obtainedUniversity.IsoCode == obtainedCountry.Cca2 {
+				combinedUniversities = append(combinedUniversities, combineStructs(obtainedUniversity,
+					obtainedCountry))
 				break
 			}
 		}

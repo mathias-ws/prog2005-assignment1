@@ -13,7 +13,8 @@ const DIAG_LOCATION = "/unisearcher/v1/diag/"
 
 // API urls
 const COUNTRY_API = "https://restcountries.com/v3.1/name/"
-const COUNTRY_API_CONSTRAINTS = "?fields=name,maps,languages,borders"
+const COUNTRY_API_CONSTRAINTS = "?fields=name,maps,languages,borders,cca2"
+const COUNTRY_API_CONSTRAINTS_AND = "&fields=name,maps,languages,borders,cca2"
 const COUNTRY_API_ROOT_URL = "https://restcountries.com/"
 const COUNTRY_API_ALPHA_CODE = "https://restcountries.com/v3.1/alpha/?codes="
 const UNIVERSITY_API = "http://universities.hipolabs.com/search?"
