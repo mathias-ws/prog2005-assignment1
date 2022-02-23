@@ -1,4 +1,4 @@
-package url
+package urlHandlingServer
 
 import (
 	"assignment-1/constants"
@@ -23,7 +23,7 @@ func GetNameAndCountry(url *url.URL) (string, string, error) {
 	}
 }
 
-// GenerateUniversitySearchString generates a search string for the university api based on the user inputted url.
+// GenerateUniversitySearchString generates a search string for the university api based on the user inputted urlHandlingClient.
 func GenerateUniversitySearchString(url *url.URL) string {
 	searchStrings := url.Query()
 	urlToSearch := strings.Builder{}
@@ -36,7 +36,7 @@ func GenerateUniversitySearchString(url *url.URL) string {
 			return ""
 		}
 
-		// Writes it to the url.
+		// Writes it to the urlHandlingClient.
 		urlToSearch.WriteString(constants.URL_PARAM_NAME_CONTAINS)
 		urlToSearch.WriteString(constants.URL_PARAM_EQUALS)
 		urlToSearch.WriteString(strings.ReplaceAll(searchStrings[constants.URL_PARAM_NAME][0], " ", "%20"))
@@ -54,7 +54,7 @@ func GenerateUniversitySearchString(url *url.URL) string {
 			urlToSearch.WriteString(constants.URL_PARAM_AND)
 		}
 
-		// Writes it to the url.
+		// Writes it to the urlHandlingClient.
 		urlToSearch.WriteString(constants.URL_PARAM_COUNTRY)
 		urlToSearch.WriteString(constants.URL_PARAM_EQUALS)
 		urlToSearch.WriteString(strings.ReplaceAll(searchStrings[constants.URL_PARAM_COUNTRY][0], " ", "%20"))
@@ -86,27 +86,4 @@ func GetLimit(url *url.URL) (int, error) {
 	}
 
 	return 0, nil
-}
-
-// GenerateBaseUrlForCountrySearch generates the bas url that the GetUniversitiesBorderingTo function uses.
-func GenerateBaseUrlForCountrySearch(universityName string) string {
-	baseUrlToSearch := strings.Builder{}
-	baseUrlToSearch.WriteString(constants.UNIVERSITY_API)
-	baseUrlToSearch.WriteString(constants.URL_PARAM_NAME_CONTAINS)
-	baseUrlToSearch.WriteString(constants.URL_PARAM_EQUALS)
-	baseUrlToSearch.WriteString(universityName)
-	baseUrlToSearch.WriteString(constants.URL_PARAM_AND)
-	baseUrlToSearch.WriteString(constants.URL_PARAM_COUNTRY)
-	baseUrlToSearch.WriteString(constants.URL_PARAM_EQUALS)
-
-	return baseUrlToSearch.String()
-}
-
-func GenerateUrlCountries(countryCodes []string) string {
-	baseUrlToSearch := strings.Builder{}
-	baseUrlToSearch.WriteString(constants.COUNTRY_API_ALPHA_CODE)
-	baseUrlToSearch.WriteString(strings.Join(countryCodes, ","))
-	baseUrlToSearch.WriteString(constants.COUNTRY_API_CONSTRAINTS_AND)
-
-	return baseUrlToSearch.String()
 }

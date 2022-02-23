@@ -5,7 +5,7 @@ import (
 	"assignment-1/json_parser"
 	"assignment-1/model"
 	"assignment-1/web_client"
-	"assignment-1/web_server/url"
+	"assignment-1/web_client/urlHandlingClient"
 	"log"
 	"strings"
 )
@@ -43,7 +43,7 @@ func GetUniversitiesBorderingTo(universityName string, searchCountry string, lim
 	}
 
 	response, err := web_client.GetResponseFromWebPage(
-		strings.ReplaceAll(url.GenerateBaseUrlForCountrySearch(universityName), " ", "%20"))
+		strings.ReplaceAll(urlHandlingClient.GenerateBaseUrlForCountrySearch(universityName), " ", "%20"))
 
 	// Enters when there has been an issue getting the slice of countries.
 	if err != nil {

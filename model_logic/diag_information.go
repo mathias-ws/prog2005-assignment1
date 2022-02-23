@@ -22,7 +22,7 @@ func getUptime() string {
 	return fmt.Sprintf("%ds", int(time.Since(startTime).Seconds()))
 }
 
-// getStatusCode gets the status code from a webpage specified by an url.
+// getStatusCode gets the status code from a webpage specified by an urlHandlingClient.
 func getStatusCode(url string) (int, error) {
 	statusCode, err := web_client.GetResponseFromWebPage(url)
 

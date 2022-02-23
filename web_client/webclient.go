@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-// GetResponseFromWebPage method that takes an url and gets a response from the webpage.
+// GetResponseFromWebPage method that takes an urlHandlingClient and gets a response from the webpage.
 func GetResponseFromWebPage(url string) (*http.Response, error) {
 	request, errorFromRequest := http.NewRequest(http.MethodGet, url, nil)
 

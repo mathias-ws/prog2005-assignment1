@@ -5,7 +5,7 @@ import (
 	"assignment-1/json_parser"
 	"assignment-1/model_logic"
 	"assignment-1/web_client"
-	"assignment-1/web_server/url"
+	"assignment-1/web_server/urlHandlingServer"
 	"net/http"
 )
 
@@ -23,7 +23,7 @@ func UnisearchHandler(w http.ResponseWriter, r *http.Request) {
 
 // handleGetRequestUniSearch handles the get requests for the endpoint.
 func handleGetRequestUniSearch(w http.ResponseWriter, r *http.Request) {
-	urlToSearch := url.GenerateUniversitySearchString(r.URL)
+	urlToSearch := urlHandlingServer.GenerateUniversitySearchString(r.URL)
 
 	// Checks for an empty search string
 	if urlToSearch == "" {

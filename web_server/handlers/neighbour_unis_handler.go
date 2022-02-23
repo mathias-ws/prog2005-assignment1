@@ -4,7 +4,7 @@ import (
 	"assignment-1/custom_errors"
 	"assignment-1/json_parser"
 	"assignment-1/model_logic"
-	"assignment-1/web_server/url"
+	"assignment-1/web_server/urlHandlingServer"
 	"net/http"
 )
 
@@ -22,7 +22,7 @@ func NeighbourUnisHandler(w http.ResponseWriter, r *http.Request) {
 
 // handleGetRequestNeighbourUnis handles the get requests for the endpoint.
 func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
-	uniName, country, err := url.GetNameAndCountry(r.URL)
+	uniName, country, err := urlHandlingServer.GetNameAndCountry(r.URL)
 
 	// When invalid parameters.
 	if err != nil {
@@ -30,7 +30,7 @@ func handleGetRequestNeighbourUnis(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	limit, err := url.GetLimit(r.URL)
+	limit, err := urlHandlingServer.GetLimit(r.URL)
 
 	// When the limit is invalid
 	if err != nil {

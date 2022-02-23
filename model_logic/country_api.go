@@ -6,7 +6,7 @@ import (
 	"assignment-1/json_parser"
 	"assignment-1/model"
 	"assignment-1/web_client"
-	"assignment-1/web_server/url"
+	"assignment-1/web_client/urlHandlingClient"
 	"strings"
 )
 
@@ -71,7 +71,7 @@ func GetCountryByAlphaTwoCode(countryAlphaTwoCode string) (model.CountryApi, err
 func GetNeighbouringCountries(country model.CountryApi) ([]model.CountryApi, error) {
 	countryCodes := country.BordersTo
 
-	response, err := web_client.GetResponseFromWebPage(url.GenerateUrlCountries(countryCodes))
+	response, err := web_client.GetResponseFromWebPage(urlHandlingClient.GenerateUrlCountries(countryCodes))
 
 	// Checks for errors in the fetching from the api.
 	if err != nil {
