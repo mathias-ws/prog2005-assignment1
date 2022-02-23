@@ -57,7 +57,7 @@ func GetUniversitiesBorderingTo(universityName string, searchCountry string, lim
 	}
 
 	// Goes through all the countries and searches for universities matching the conditions within the given country.
-	for _, country := range countries {
+	for i, country := range countries {
 		urlToSearch := strings.Builder{}
 		urlToSearch.WriteString(generateBaseUrlForCountrySearch(universityName))
 		urlToSearch.WriteString(country.Name["common"].(string))
@@ -74,7 +74,7 @@ func GetUniversitiesBorderingTo(universityName string, searchCountry string, lim
 		// Goes through the all the universities in a given country, combines it with the country info and adds it to the list.
 		for _, obtainedUniversity := range universities {
 			combinedUniversities = append(combinedUniversities, combineStructs(obtainedUniversity,
-				countries[obtainedUniversity.Country]))
+				countries[i]))
 
 			// Ends the loop if the limit is reached.
 			if len(combinedUniversities) > limit-1 && limit != 0 {
