@@ -7,9 +7,9 @@ const PORT = "80"
 const PROGRAM_VERSION = "v1"
 
 // URL paths
-const UNISEARCH_LOCATION = "/unisearcher/v1/uniinfo/"
-const NEIGHBOUR_UNIS_LOCATION = "/unisearcher/v1/neighbourunis/"
-const DIAG_LOCATION = "/unisearcher/v1/diag/"
+const UNISEARCH_LOCATION = "/unisearcher/v1/uniinfo"
+const NEIGHBOUR_UNIS_LOCATION = "/unisearcher/v1/neighbourunis"
+const DIAG_LOCATION = "/unisearcher/v1/diag"
 const DEFAULT_LOCATION = "/"
 
 // API urls

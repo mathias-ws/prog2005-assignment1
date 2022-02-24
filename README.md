@@ -16,8 +16,8 @@ The heroku deployed instance of this project can be reached at: https://unisearc
 
 The api has three endpoint:
 
-    /unisearcher/v1/neighbourunis/
-    /unisearcher/v1/uniinfo/
+    /unisearcher/v1/neighbourunis
+    /unisearcher/v1/uniinfo
     /unisearcher/v1/diag
 
 If no endpoint is found the error code `404 not found` is returned. This indicates that the user entered a wrong path.
@@ -39,9 +39,9 @@ The uniinfo endpoint can be used either based on university name or country name
 
 Example search:
 
-    unisearcher/v1/uniinfo/?name=Molde&country=norway
-    unisearcher/v1/uniinfo/?name=Norwegian%20University%20of%20Science%20and%20Technology
-    unisearcher/v1/uniinfo/?country=norway
+    unisearcher/v1/uniinfo?name=Molde&country=norway
+    unisearcher/v1/uniinfo?name=Norwegian%20University%20of%20Science%20and%20Technology
+    unisearcher/v1/uniinfo?country=norway
 
 ### Response
 
@@ -99,8 +99,8 @@ parameter and can be omitted. If not set by the user all results are returned.
 
 Example search:
 
-    unisearcher/v1/neighbourunis/?name=science&country=norway&limit=1
-    unisearcher/v1/neighbourunis/?name=Norwegian%20University%20of%20Science%20and%20Technology&country=norway
+    unisearcher/v1/neighbourunis?name=science&country=norway&limit=1
+    unisearcher/v1/neighbourunis?name=Norwegian%20University%20of%20Science%20and%20Technology&country=norway
 
 ### Response
 
