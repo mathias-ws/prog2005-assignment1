@@ -10,6 +10,7 @@ const PROGRAM_VERSION = "v1"
 const UNISEARCH_LOCATION = "/unisearcher/v1/uniinfo/"
 const NEIGHBOUR_UNIS_LOCATION = "/unisearcher/v1/neighbourunis/"
 const DIAG_LOCATION = "/unisearcher/v1/diag/"
+const DEFAULT_LOCATION = "/"
 
 // API urls
 const COUNTRY_API = "https://restcountries.com/v3.1/name/"

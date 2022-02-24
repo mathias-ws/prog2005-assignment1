@@ -14,6 +14,7 @@ func setHandlers() {
 	http.HandleFunc(constants.UNISEARCH_LOCATION, handlers.UnisearchHandler)
 	http.HandleFunc(constants.NEIGHBOUR_UNIS_LOCATION, handlers.NeighbourUnisHandler)
 	http.HandleFunc(constants.DIAG_LOCATION, handlers.DiagHandler)
+	http.HandleFunc(constants.DEFAULT_LOCATION, handlers.DefaultHandler)
 }
 
 // StartWebServer starts the webserver for the api.
