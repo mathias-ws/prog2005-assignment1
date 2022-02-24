@@ -20,6 +20,8 @@ The api has three endpoint:
     /unisearcher/v1/uniinfo/
     /unisearcher/v1/diag
 
+If no endpoint is found the error code `404 not found` is returned. This indicates that the user entered a wrong path.
+
 ## Uniinfo
 
 The uniinfo endpoint can be used to find information about a university with some country information. You can search
