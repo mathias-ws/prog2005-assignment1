@@ -25,7 +25,14 @@ func HttpUnknownServerError(w http.ResponseWriter) {
 	http.Error(w, "Server side error, please try again later", http.StatusInternalServerError)
 }
 
-// HttpNoContent http error for when no contet is returned.
+// HttpNoContent http error for when no content is returned.
 func HttpNoContent(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusNoContent)
+}
+
+// HttpNotFound gives an error message that the endpoint does not exist.
+func HttpNotFound(w http.ResponseWriter) {
+	http.Error(w, "The endpoint does not exist, please see the documentation: "+
+		"https://git.gvk.idi.ntnu.no/course/prog2005/prog2005-2022-workspace/mathias_ws/assignment-1/-/blob/main/README.md",
+		http.StatusNotFound)
 }

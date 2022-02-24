@@ -19,7 +19,5 @@ func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 // handleGetRequestDefault handles the get requests for the endpoint. Gives a 404 when the path doesn't exist.
 // Is the default handler of the project.
 func handleGetRequestDefault(w http.ResponseWriter) {
-	http.Error(w, "The endpoint does not exist, please see the documentation: "+
-		"https://git.gvk.idi.ntnu.no/course/prog2005/prog2005-2022-workspace/mathias_ws/assignment-1/-/blob/main/README.md",
-		http.StatusNotFound)
+	custom_errors.HttpNotFound(w)
 }
