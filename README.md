@@ -12,6 +12,8 @@ work.
 
 The heroku deployed instance of this project can be reached at: https://unisearcher-assignment-1-cloud.herokuapp.com
 
+[TOC]
+
 # Endpoints
 
 The api has three endpoint:
