@@ -234,3 +234,4 @@ Some additional features that this project has compared to the assignment descri
 * a high level of modularity
 * some additional parameters and search options in the uniinfo endpoint (you can also search for country)
 * support for building the project as a docker image
+* a caching mechanism to minimize the number of requests to the countries api.
